@@ -1,7 +1,6 @@
 import os
 import shutil
 
-
 ZIP_FILE_PATH = "data/files.zip"
 EXCEL_FILE_PATH = "data/data.xlsx"
 SOURCE_ID = 1

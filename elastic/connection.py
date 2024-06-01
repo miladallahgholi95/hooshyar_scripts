@@ -23,6 +23,7 @@ class ESIndex:
             self.CLIENT.indices.create(index=self.name, mappings=self.mappings,
                                        settings=self.settings)
             print(f'{self.name} created')
+
     def generate_docs(self, documents):
         pass
 
@@ -32,7 +33,7 @@ class ESIndex:
         generate_docs_method = self.generate_docs
         if do_parallel:
             deque(helpers.parallel_bulk(self.CLIENT, generate_docs_method(documents), thread_count=8, chunk_size=500,
-                                        request_timeout=3000),maxlen=0)
+                                        request_timeout=3000), maxlen=0)
         else:
             helpers.bulk(self.CLIENT, generate_docs_method(documents), chunk_size=500, request_timeout=120)
         self.CLIENT.indices.flush(index=self.name)
@@ -62,3 +63,30 @@ class ESIndex:
         print(f"{result['count']} documents indexed (time: {end_t - start_t}).")
 
 
+class IndexObjectWithId(ESIndex):
+    def __init__(self, name, settings, mappings):
+        super().__init__(name, settings, mappings)
+
+    def generate_docs(self, paragraphs):
+        for paragraph in paragraphs:
+            paragraph_id = paragraph["_id"]
+            del paragraph["_id"]
+            new_paragraph = {
+                "_index": self.name,
+                "_id": paragraph_id,
+                "_source": paragraph,
+            }
+            yield new_paragraph
+
+
+class IndexObjectWithoutId(ESIndex):
+    def __init__(self, name, settings, mappings):
+        super().__init__(name, settings, mappings)
+
+    def generate_docs(self, paragraphs):
+        for paragraph in paragraphs:
+            new_paragraph = {
+                "_index": self.name,
+                "_source": paragraph,
+            }
+            yield new_paragraph
