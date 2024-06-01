@@ -1,0 +1,15 @@
+elasticsearch
+ZipUnicode
+tika
+pandas
+persiantools
+transformers
+sentencepiece
+torch
+openpyxl
+scikit-learn
+gensim
+sentence_transformers
+protobuf
+sshtunnel
+scipy==1.10.1
