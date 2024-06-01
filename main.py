@@ -1,6 +1,6 @@
 from utils import zip_extractor
 from input_configs import *
-from scripts import *
+from scripts import source_to_elastic
 
 
 print("------------------------------------------\nExtract ZIP File\n------------------------------------------")
