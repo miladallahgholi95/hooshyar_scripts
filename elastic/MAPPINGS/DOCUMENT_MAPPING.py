@@ -247,39 +247,6 @@ MAPPING = {
             }
           }
         },
-        "tika_meta_data": {
-          "properties": {
-            "character_count": {
-              "type": "integer"
-            },
-            "character_count_with_spaces": {
-              "type": "integer"
-            },
-            "content_length": {
-              "type": "integer"
-            },
-            "create_datetime": {
-              "type": "date",
-              "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_second"
-            },
-            "format": {
-              "type": "keyword"
-            },
-            "modified_datetime": {
-              "type": "date",
-              "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_second"
-            },
-            "number_of_pages": {
-              "type": "integer"
-            },
-            "paragraph_count": {
-              "type": "short"
-            },
-            "word_count": {
-              "type": "integer"
-            }
-          }
-        },
         "type": {
           "type": "keyword"
         }
