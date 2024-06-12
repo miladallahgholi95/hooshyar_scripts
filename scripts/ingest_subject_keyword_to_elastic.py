@@ -2,7 +2,6 @@ from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
-from pathlib import Path
 import heapq
 from operator import itemgetter
 
