@@ -1,4 +1,4 @@
-from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, ES_CLIENT
+from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, ES_CLIENT, IndexObjectWithId
 import re
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
@@ -37,22 +37,6 @@ def extract_document_level_data(source_index, res_query, level, prefix, last_id=
         i += 1
 
     return result, last_id
-
-
-class ParagraphIndex(ESIndex):
-    def __init__(self, name, settings, mappings):
-        super().__init__(name, settings, mappings)
-
-    def generate_docs(self, paragraphs):
-        for paragraph in paragraphs:
-            paragraph_id = paragraph["_id"]
-            del paragraph["_id"]
-            new_paragraph = {
-                "_index": self.name,
-                "_id": paragraph_id,
-                "_source": paragraph,
-            }
-            yield new_paragraph
 
 
 def replace_nbsp_with_space(text):

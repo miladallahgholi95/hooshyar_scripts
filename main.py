@@ -10,7 +10,7 @@ print("------------------------------------------\nSource To Elastic\n----------
 source_to_elastic.apply()
 
 print("------------------------------------------\nData To Elastic\n------------------------------------------")
-ingest_data_to_elastic.apply()
+objects_ids = ingest_data_to_elastic.apply()
 
 print("------------------------------------------\nType To Elastic\n------------------------------------------")
 ingest_type_to_elastic.apply()
@@ -19,4 +19,4 @@ print("------------------------------------------\nLevel To Elastic\n-----------
 ingest_level_to_elastic.apply()
 
 print("------------------------------------------\nSubject To Elastic\n------------------------------------------")
-ingest_subject_keyword_to_elastic.apply()
+ingest_subject_keyword_to_elastic.apply(objects_ids)

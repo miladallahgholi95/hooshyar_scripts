@@ -1,10 +1,6 @@
-from pathlib import Path
 import glob
-import os
 import pandas as pd
-from tika import parser
 from input_configs import *
-from elastic.connection import ESIndex
 from collections import defaultdict
 from statistics import mean
 from persiantools.jdatetime import JalaliDate
@@ -13,16 +9,12 @@ from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
 from utils import huggingface
 
-client = ESIndex
-PAGE_SIZE = SEARCH_WINDOW_SIZE
-
-
 def text_abs_length(text):
-    ignoreList = ["!", "@", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "/", ":",
+    ignore_list = ["!", "@", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "/", ":",
                   "*", "'", "،", "؛", ",", "{", "}", '\xad', '­', "[", "]", "«", "»",
                   "<", ">", ".", "?", "؟", "\n", "\r\n", "\t", '"', "'", '۰', "٫", "\u200c", " "]
 
-    for item in ignoreList:
+    for item in ignore_list:
         text = text.replace(item, "")
 
     return len(text)
@@ -64,23 +56,23 @@ CONFIG = {
 
 def ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list):
 
-    # # insert documents to index
-    # document_index_name = DOCUMENT_MAPPING.NAME
-    # document_index_settings = DOCUMENT_SETTING.SETTING
-    # document_index_mappings = DOCUMENT_MAPPING.MAPPING
-    #
-    # new_index = IndexObjectWithId(document_index_name, document_index_settings, document_index_mappings)
-    # new_index.create()
-    # new_index.bulk_insert_documents(document_ingest_list)
-    #
-    # # insert paragraphs to index
-    # paragraph_index_name = PARAGRAPH_MAPPING.NAME
-    # paragraph_index_settings = PARAGRAPH_SETTING.SETTING
-    # paragraph_index_mappings = PARAGRAPH_MAPPING.MAPPING
-    #
-    # new_index = IndexObjectWithId(paragraph_index_name, paragraph_index_settings, paragraph_index_mappings)
-    # new_index.create()
-    # new_index.bulk_insert_documents(paragraph_ingest_list)
+    # insert documents to index
+    document_index_name = DOCUMENT_MAPPING.NAME
+    document_index_settings = DOCUMENT_SETTING.SETTING
+    document_index_mappings = DOCUMENT_MAPPING.MAPPING
+
+    new_index = IndexObjectWithId(document_index_name, document_index_settings, document_index_mappings)
+    new_index.create()
+    new_index.bulk_insert_documents(document_ingest_list)
+
+    # insert paragraphs to index
+    paragraph_index_name = PARAGRAPH_MAPPING.NAME
+    paragraph_index_settings = PARAGRAPH_SETTING.SETTING
+    paragraph_index_mappings = PARAGRAPH_MAPPING.MAPPING
+
+    new_index = IndexObjectWithId(paragraph_index_name, paragraph_index_settings, paragraph_index_mappings)
+    new_index.create()
+    new_index.bulk_insert_documents(paragraph_ingest_list)
 
     return True
 
@@ -109,6 +101,7 @@ def apply():
     document_ingest_list = []
     paragraph_ingest_list = []
     cntr = 1
+    objects_ids = []
     for file_path in input_files:
         print("Percentage -->", cntr/input_files_count, document_ingest_list.__len__())
         cntr += 1
@@ -123,6 +116,7 @@ def apply():
                 paragraph_ingest_list += paragraph_dict_list
             if document_ingest_list.__len__() == CONFIG["add_bulk_size"]:
                 ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
+                objects_ids += [row["_id"] for row in document_ingest_list]
                 document_ingest_list = []
                 paragraph_ingest_list = []
 
@@ -131,11 +125,13 @@ def apply():
 
     # insert last data to indexes
     ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
+    objects_ids += [row["_id"] for row in document_ingest_list]
 
     end_time = time.time()
 
     print('Documents & Paragraphs indices created (' + str(end_time - start_time) + ').')
 
+    return objects_ids
 
 # data functions
 def extract_data(source_id, source_name, hash_id, file_path, excel_file_dict, affect_data_dict, document_text):

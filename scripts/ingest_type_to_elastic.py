@@ -1,4 +1,4 @@
-from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
+from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, IndexObjectWithId
 import re
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
@@ -6,22 +6,6 @@ from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
 
 # es configs
 CURRENT_VECTOR_ID = 1
-
-
-class ParagraphIndex(ESIndex):
-    def __init__(self, name, settings, mappings):
-        super().__init__(name, settings, mappings)
-
-    def generate_docs(self, paragraphs):
-        for paragraph in paragraphs:
-            paragraph_id = paragraph["_id"]
-            del paragraph["_id"]
-            new_paragraph = {
-                "_index": self.name,
-                "_id": paragraph_id,
-                "_source": paragraph,
-            }
-            yield new_paragraph
 
 
 def extract_document_type_data(index_name, index_mapping, index_setting, prefix, source_id, last_id="0", is_paragraph=False):
@@ -60,12 +44,12 @@ def extract_document_type_data(index_name, index_mapping, index_setting, prefix,
         i += 1
 
         if result.__len__() % 20000 == 0:
-            new_index = ParagraphIndex(index_name, index_setting, index_mapping)
+            new_index = IndexObjectWithId(index_name, index_setting, index_mapping)
             new_index.bulk_insert_documents(result)
             result = []
 
     if result.__len__() > 0:
-        new_index = ParagraphIndex(index_name, index_setting, index_mapping)
+        new_index = IndexObjectWithId(index_name, index_setting, index_mapping)
         new_index.bulk_insert_documents(result)
 
 
