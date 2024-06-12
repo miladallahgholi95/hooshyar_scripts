@@ -25,5 +25,5 @@ ingest_subject_keyword_to_elastic.apply(objects_ids)
 print("------------------------------------------\nAll Actors To Elastic\n------------------------------------------")
 ingest_all_actors_to_elastic.apply(objects_ids)
 
-print("------------------------------------------\nAll Actors To Elastic\n------------------------------------------")
+print("------------------------------------------\nAffected Graph To Elastic\n------------------------------------------")
 ingest_affected_graph_to_elastic.apply(objects_ids)
