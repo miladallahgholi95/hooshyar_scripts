@@ -477,16 +477,16 @@ def apply():
     FILTER_CONTENT_LENGTH = 50
     SUBJECT_FIELD_NAME = "keyword_main_subject"
 
-    #-------------------------------- KMeans ----------------------------------
+    # -------------------------------- KMeans ----------------------------------
 
-    #----------------------------- Create Corpus-------------------------------
+    # ----------------------------- Create Corpus-------------------------------
 
     print("create corpus ....")
     kmeans_main_corpus, kmeans_main_para_id_list, kmeans_main_paragraph_data_dict = create_corpus(SOURCE_ID,
                                                                                                   FILTER_CONTENT_LENGTH,
                                                                                                   SUBJECT_FIELD_NAME)
 
-    #----------------------------- Algorithm -------------------------------
+    # ----------------------------- Algorithm -------------------------------
 
     KMEANS_CONFIG = {
         "algorithm": "KMeans",
@@ -511,9 +511,9 @@ def apply():
     ingest_data_to_elastic(SOURCE_ID, kmeans_clusters_info_list, kmeans_clusters_chart_list,
                            kmeans_clusters_paragraphs_list)
 
-    #----------------------------------- LDA ----------------------------------
+    # ----------------------------------- LDA ----------------------------------
 
-    #----------------------------- Create Corpus-------------------------------
+    # ----------------------------- Create Corpus-------------------------------
 
     print("create corpus ....")
     lda_main_corpus, lda_main_para_id_list, lda_main_paragraph_data_dict = create_corpus(SOURCE_ID,
@@ -533,7 +533,7 @@ def apply():
         "vector_extractor_function": tf_idf_embedding,
     }
 
-    #----------------------------- Algorithm -------------------------------
+    # ----------------------------- Algorithm -------------------------------
 
     print("run clustering algorithm ....")
     lda_clusters_info_list, lda_clusters_chart_list, lda_clusters_paragraphs_list = LDA_CONFIG["base_function"](
