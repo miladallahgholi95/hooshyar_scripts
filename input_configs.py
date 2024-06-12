@@ -1,5 +1,6 @@
 import os
 import shutil
+import jdatetime
 
 ZIP_FILE_PATH = "data/files.zip"
 EXCEL_FILE_PATH = "data/data.xlsx"
@@ -43,8 +44,10 @@ if os.path.exists(PATH_TO_EXTRACT_FILES) and os.path.isdir(PATH_TO_EXTRACT_FILES
     shutil.rmtree(PATH_TO_EXTRACT_FILES)
 os.mkdir(PATH_TO_EXTRACT_FILES)
 
-EXCEL_FILE_MAPPING = {}
 RUN_SENTIMENT_MODULE = False
 RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
 RUN_VECTOR_MODULE = False
+
+
+UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')

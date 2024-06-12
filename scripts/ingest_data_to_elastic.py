@@ -113,26 +113,21 @@ def apply():
         print("Percentage -->", cntr/input_files_count, document_ingest_list.__len__())
         cntr += 1
         try:
-            text = ''
-            parser_result_dict = parser.from_file(file_path)
-            if parser_result_dict['status'] == 200:
-                text = parser_result_dict['content'].strip()
+            text = open(file_path, encoding="utf8").read()
 
             if text is not None or text != "":
-                meta_data = parser_result_dict["metadata"]
                 hash_id = str(os.path.basename(file_path)).split(".")[0]
-                document_dict, paragraph_dict_list = extract_data(source_id, source_name, hash_id, file_path, meta_data,
+                document_dict, paragraph_dict_list = extract_data(source_id, source_name, hash_id, file_path,
                                                                   excel_file_dictionary, affect_data_dictionary, text)
                 document_ingest_list.append(document_dict)
                 paragraph_ingest_list += paragraph_dict_list
-            print(document_ingest_list.__len__(), CONFIG["add_bulk_size"])
             if document_ingest_list.__len__() == CONFIG["add_bulk_size"]:
                 ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
                 document_ingest_list = []
                 paragraph_ingest_list = []
 
         except Exception as e:
-            print(file_path, "Error:", e)
+            print(file_path, "\nError:", e)
 
     # insert last data to indexes
     ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
@@ -143,7 +138,7 @@ def apply():
 
 
 # data functions
-def extract_data(source_id, source_name, hash_id, file_path, meta_data, excel_file_dict, affect_data_dict, document_text):
+def extract_data(source_id, source_name, hash_id, file_path, excel_file_dict, affect_data_dict, document_text):
 
     document_dict = {"_id": hash_id, "file_path": file_path, "source_id": source_id, "source_name": source_name,
                      "content": document_text, "type": "نامشخص", "level": "نامشخص",
@@ -293,10 +288,7 @@ def excel_to_dict(excel_path, field_names_list):
             elif key not in ("date", "time", "download_datetime", "affect_relation_data", "extra_data"):
                 temp_dict[key] = row[value]
 
-        try:
-            temp_dict["download_datetime"] = row[field_names_list["download_datetime"]]
-        except:
-            temp_dict["download_datetime"] = None
+        temp_dict["download_datetime"] = UPLOAD_DATE
 
         date_value = row[field_names_list["date"]]
 
