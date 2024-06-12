@@ -10,10 +10,12 @@ from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
 from elastic.connection import ESIndex, ES_CLIENT, SEARCH_WINDOW_SIZE, IndexObjectWithId
 from input_configs import *
-from elastic.MAPPINGS import PARAGRAPH_MAPPING, CLUSTERING_PARAGRAPHS_MAPPING, CLUSTERING_INFO_MAPPING, CLUSTERING_CHARTS_MAPPING
+from elastic.MAPPINGS import PARAGRAPH_MAPPING, CLUSTERING_PARAGRAPHS_MAPPING, CLUSTERING_INFO_MAPPING, \
+    CLUSTERING_CHARTS_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
 
 CURRENT_VECTOR_ID = 1
+
 
 def local_processing(text):
     # normalizer = Normalizer()
@@ -27,7 +29,8 @@ def local_processing(text):
         text = text.replace(item, " ")
     while "  " in text:
         text = text.replace("  ", " ")
-    arabic_char = {"آ": "ا", "أ": "ا", "إ": "ا", "ي": "ی", "ئ": "ی", "ة": "ه", "ۀ": "ه", "ك": "ک", "َ": "", "ُ": "", "ِ": ""}
+    arabic_char = {"آ": "ا", "أ": "ا", "إ": "ا", "ي": "ی", "ئ": "ی", "ة": "ه", "ۀ": "ه", "ك": "ک", "َ": "", "ُ": "",
+                   "ِ": ""}
     for key, value in arabic_char.items():
         text = text.replace(key, value)
     return text
@@ -184,9 +187,9 @@ def kmeans_clustering(corpus, para_id_list, paragraph_data_dict, config_dict, so
 
     clusters_paragraphs_list = []
     for para_id, data in paragraph_data_dict.items():
-        data["_id"] = str(data["source_id"]) + "_" +\
-                      config_dict["algorithm"] + "_" +\
-                      config_dict["vector_type"] + "_" +\
+        data["_id"] = str(data["source_id"]) + "_" + \
+                      config_dict["algorithm"] + "_" + \
+                      config_dict["vector_type"] + "_" + \
                       para_id
         clusters_paragraphs_list.append(data)
 
@@ -194,7 +197,8 @@ def kmeans_clustering(corpus, para_id_list, paragraph_data_dict, config_dict, so
 
 
 def lda_clustering(corpus, para_id_list, paragraph_data_dict, config_dict, source_id):
-    min_k, max_k, step = config_dict["cluster_count_min"], config_dict["cluster_count_max"], config_dict["cluster_count_step"]
+    min_k, max_k, step = config_dict["cluster_count_min"], config_dict["cluster_count_max"], config_dict[
+        "cluster_count_step"]
 
     clusters_info_list = []
     clusters_chart_list = []
@@ -235,7 +239,8 @@ def lda_clustering(corpus, para_id_list, paragraph_data_dict, config_dict, sourc
                 "cluster_number": cluster_number
             }
 
-            cluster_keywords = [{"keyword": keyword, "score": score} for keyword, score in lda_model.show_topic(cluster_number, topn=20)]
+            cluster_keywords = [{"keyword": keyword, "score": score} for keyword, score in
+                                lda_model.show_topic(cluster_number, topn=20)]
 
             paragraph_data_dict[para_id]['clusters'].append(topic_dict)
             paragraph_data_dict[para_id]["algorithm"] = config_dict["algorithm"]
@@ -276,9 +281,9 @@ def lda_clustering(corpus, para_id_list, paragraph_data_dict, config_dict, sourc
 
     clusters_paragraphs_list = []
     for para_id, data in paragraph_data_dict.items():
-        data["_id"] = str(data["source_id"]) + "_" +\
-                      config_dict["algorithm"] + "_" +\
-                      config_dict["vector_type"] + "_" +\
+        data["_id"] = str(data["source_id"]) + "_" + \
+                      config_dict["algorithm"] + "_" + \
+                      config_dict["vector_type"] + "_" + \
                       para_id
         clusters_paragraphs_list.append(data)
 
@@ -309,21 +314,21 @@ def create_corpus(source_id, filter_content_length, subject_field_name):
     }, index=PARAGRAPH_MAPPING.NAME)['count']
     if index_paragraph_size > SEARCH_WINDOW_SIZE:
         ES_CLIENT.indices.put_settings(index=PARAGRAPH_MAPPING.NAME,
-                                              body={"index": {
-                                                  "max_result_window": index_paragraph_size
-                                              }})
+                                       body={"index": {
+                                           "max_result_window": index_paragraph_size
+                                       }})
     print("get paragraph data ...")
     response = ES_CLIENT.search(index=PARAGRAPH_MAPPING.NAME,
-                                       request_timeout=120,
-                                       query=res_query,
-                                       size=index_paragraph_size
-                                       )
+                                request_timeout=120,
+                                query=res_query,
+                                size=index_paragraph_size
+                                )
 
     if index_paragraph_size > SEARCH_WINDOW_SIZE:
         ES_CLIENT.indices.put_settings(index=PARAGRAPH_MAPPING.NAME,
-                                              body={"index": {
-                                                  "max_result_window": SEARCH_WINDOW_SIZE
-                                              }})
+                                       body={"index": {
+                                           "max_result_window": SEARCH_WINDOW_SIZE
+                                       }})
 
     paragraphs_list = response['hits']['hits']
     print(f"all paragraph count is: {len(paragraphs_list)}")
@@ -345,7 +350,8 @@ def create_corpus(source_id, filter_content_length, subject_field_name):
                 "document_id": para['_source']["document_id"],
                 "document_name": para['_source']["document_name"],
                 "document_datetime": para['_source']["document_datetime"],
-                "main_subject": para['_source'][subject_field_name] if para['_source'][subject_field_name] not in ["", None] else 'نامشخص',
+                "main_subject": para['_source'][subject_field_name] if para['_source'][subject_field_name] not in ["",
+                                                                                                                   None] else 'نامشخص',
                 "content": para_text,
                 "clusters": []
             }
@@ -439,7 +445,6 @@ class ClusterParagraphsIndex(ESIndex):
 
 
 def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, clusters_paragraphs_list):
-
     info_index = ClusterInfoIndex(CLUSTERING_INFO_MAPPING.NAME,
                                   DOCUMENT_SETTING.SETTING,
                                   CLUSTERING_INFO_MAPPING.MAPPING)
@@ -465,8 +470,8 @@ def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, c
     chart_index.bulk_insert_documents(clusters_chart_list)
     paragraphs_index.bulk_insert_documents(clusters_paragraphs_list)
 
-def apply():
 
+def apply():
     print("Start Clustering ...")
 
     FILTER_CONTENT_LENGTH = 50
@@ -477,7 +482,9 @@ def apply():
     #----------------------------- Create Corpus-------------------------------
 
     print("create corpus ....")
-    kmeans_main_corpus, kmeans_main_para_id_list, kmeans_main_paragraph_data_dict = create_corpus(SOURCE_ID, FILTER_CONTENT_LENGTH, SUBJECT_FIELD_NAME)
+    kmeans_main_corpus, kmeans_main_para_id_list, kmeans_main_paragraph_data_dict = create_corpus(SOURCE_ID,
+                                                                                                  FILTER_CONTENT_LENGTH,
+                                                                                                  SUBJECT_FIELD_NAME)
 
     #----------------------------- Algorithm -------------------------------
 
@@ -495,20 +502,23 @@ def apply():
     }
 
     print("run clustering algorithm ....")
-    kmeans_clusters_info_list, kmeans_clusters_chart_list, kmeans_clusters_paragraphs_list = KMEANS_CONFIG["base_function"](kmeans_main_corpus,
-                                                                                                       kmeans_main_para_id_list,
-                                                                                                       kmeans_main_paragraph_data_dict,
-                                                                                                       KMEANS_CONFIG, SOURCE_ID)
+    kmeans_clusters_info_list, kmeans_clusters_chart_list, kmeans_clusters_paragraphs_list = KMEANS_CONFIG[
+        "base_function"](kmeans_main_corpus,
+                         kmeans_main_para_id_list,
+                         kmeans_main_paragraph_data_dict,
+                         KMEANS_CONFIG, SOURCE_ID)
     print("save to elastic ...")
-    ingest_data_to_elastic(SOURCE_ID, kmeans_clusters_info_list, kmeans_clusters_chart_list, kmeans_clusters_paragraphs_list)
+    ingest_data_to_elastic(SOURCE_ID, kmeans_clusters_info_list, kmeans_clusters_chart_list,
+                           kmeans_clusters_paragraphs_list)
 
     #----------------------------------- LDA ----------------------------------
 
     #----------------------------- Create Corpus-------------------------------
 
     print("create corpus ....")
-    lda_main_corpus, lda_main_para_id_list, lda_main_paragraph_data_dict = create_corpus(SOURCE_ID, FILTER_CONTENT_LENGTH, SUBJECT_FIELD_NAME)
-
+    lda_main_corpus, lda_main_para_id_list, lda_main_paragraph_data_dict = create_corpus(SOURCE_ID,
+                                                                                         FILTER_CONTENT_LENGTH,
+                                                                                         SUBJECT_FIELD_NAME)
 
     LDA_CONFIG = {
         "algorithm": "LDA",
@@ -526,10 +536,11 @@ def apply():
     #----------------------------- Algorithm -------------------------------
 
     print("run clustering algorithm ....")
-    lda_clusters_info_list, lda_clusters_chart_list, lda_clusters_paragraphs_list = LDA_CONFIG["base_function"](lda_main_corpus,
-                                                                                                    lda_main_para_id_list,
-                                                                                                    lda_main_paragraph_data_dict,
-                                                                                                    LDA_CONFIG, SOURCE_ID)
+    lda_clusters_info_list, lda_clusters_chart_list, lda_clusters_paragraphs_list = LDA_CONFIG["base_function"](
+        lda_main_corpus,
+        lda_main_para_id_list,
+        lda_main_paragraph_data_dict,
+        LDA_CONFIG, SOURCE_ID)
     print("save to elastic ...")
     ingest_data_to_elastic(SOURCE_ID, lda_clusters_info_list, lda_clusters_chart_list, lda_clusters_paragraphs_list)
 
