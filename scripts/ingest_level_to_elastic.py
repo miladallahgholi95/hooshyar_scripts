@@ -294,13 +294,11 @@ def apply():
     index_name = DOCUMENT_MAPPING.NAME
     setting = DOCUMENT_SETTING.SETTING
     mapping = DOCUMENT_MAPPING.MAPPING
-
     data_to_search = [(index_name, asnad_bala_dasti_query, "اسناد بالا دستی", ""),
                       (index_name, qanoon_query_type, "قانون", ""), (index_name, qanoon_query, "قانون", ""),
                       (index_name, moqarare_query, "مقررات", ""),
                       (index_name, nazar_mashverati_query, "نظر مشورتی", ""), (index_name, ara_query, "رأی", ""),
                       (index_name, {"term": {"source_id": SOURCE_ID}}, "سایر", "")]
-
     ids = {}
     for index_name, res_query, level, prefix in data_to_search:
         last_id = "0"
@@ -318,6 +316,7 @@ def apply():
             new_index = ParagraphIndex(index_name, setting, mapping)
             new_index.create()
             new_index.bulk_insert_documents(all_data)
+
 
     asnad_bala_dasti_query = {
         "bool":
@@ -540,7 +539,6 @@ def apply():
     index_name = PARAGRAPH_MAPPING.NAME
     setting = PARAGRAPH_SETTING.SETTING
     mapping = PARAGRAPH_MAPPING.MAPPING
-
     data_to_search = [(index_name, asnad_bala_dasti_query, "اسناد بالا دستی", "document_"),
                       (index_name, qanoon_query_type, "قانون", "document_"),
                       (index_name, qanoon_query, "قانون", "document_"),
@@ -552,7 +550,6 @@ def apply():
     ids = {}
     for index_name, res_query, level, prefix in data_to_search:
         last_id = "0"
-        m = 0
         while True:
             all_data = []
             data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=10000)
@@ -563,15 +560,10 @@ def apply():
                 if ids.get(item["_id"]) is None:
                     ids[item["_id"]] = True
                     all_data.append(item)
-
             del data
-
             new_index = ParagraphIndex(index_name, setting, mapping)
             new_index.create()
             new_index.bulk_insert_documents(all_data)
-
-            print("-------------->", m)
-            m+=1
 
     print("========================================\n\n\n\n\n",
           "Done========================================\n\n\n\n\n")
