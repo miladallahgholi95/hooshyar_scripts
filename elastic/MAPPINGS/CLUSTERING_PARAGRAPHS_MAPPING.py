@@ -1,4 +1,4 @@
-NAME = "hooshyar3_clustering_paragraphs_index_v3"
+NAME = "hooshyar3_clustering_paragraphs_index_v33i"
 MAPPING = {
       "properties": {
         "algorithm": {
