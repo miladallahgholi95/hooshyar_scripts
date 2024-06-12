@@ -1,6 +1,4 @@
-import time
-from elastic.connection import ESIndex, ES_CLIENT, SEARCH_WINDOW_SIZE
-from elasticsearch import Elasticsearch
+from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
 import re
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
