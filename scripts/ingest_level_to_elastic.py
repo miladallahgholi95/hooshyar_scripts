@@ -1,11 +1,11 @@
 from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, ES_CLIENT, IndexObjectWithId
-import re
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
+import re
 
-# es configs
 CURRENT_VECTOR_ID = 1
+
 
 def extract_document_level_data(source_index, res_query, level, prefix, last_id="0", size=500000):
     result = []
@@ -56,7 +56,7 @@ def arabic_char_preprocessing(text):
     return text
 
 
-def apply():
+def apply(patch_obj=None):
     asnad_bala_dasti_query = {
         "bool":
             {
@@ -66,6 +66,12 @@ def apply():
                             "term":
                                 {
                                     "source_id": SOURCE_ID
+                                }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
                                 }
                         },
                         {
@@ -109,6 +115,12 @@ def apply():
                                 {
                                     "source_id": SOURCE_ID
                                 }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
+                                }
                         },
                         {
                             "term":
@@ -128,6 +140,12 @@ def apply():
                             "term":
                                 {
                                     "source_id": SOURCE_ID
+                                }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
                                 }
                         },
                         {
@@ -158,6 +176,12 @@ def apply():
                             "term":
                                 {
                                     "source_id": SOURCE_ID
+                                }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
                                 }
                         },
                         {
@@ -244,6 +268,12 @@ def apply():
                                 {
                                     "source_id": SOURCE_ID
                                 }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
+                                }
                         },
                         {
                             "term":
@@ -264,6 +294,12 @@ def apply():
                                 {
                                     "source_id": SOURCE_ID
                                 }
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "_id": patch_obj
+                                }
                         },
                         {
                             "term":
@@ -278,11 +314,15 @@ def apply():
     index_name = DOCUMENT_MAPPING.NAME
     setting = DOCUMENT_SETTING.SETTING
     mapping = DOCUMENT_MAPPING.MAPPING
-    data_to_search = [(index_name, asnad_bala_dasti_query, "اسناد بالا دستی", ""),
-                      (index_name, qanoon_query_type, "قانون", ""), (index_name, qanoon_query, "قانون", ""),
-                      (index_name, moqarare_query, "مقررات", ""),
-                      (index_name, nazar_mashverati_query, "نظر مشورتی", ""), (index_name, ara_query, "رأی", ""),
-                      (index_name, {"term": {"source_id": SOURCE_ID}}, "سایر", "")]
+    data_to_search = [
+        (index_name, asnad_bala_dasti_query, "اسناد بالا دستی", ""),
+        (index_name, qanoon_query_type, "قانون", ""),
+        (index_name, qanoon_query, "قانون", ""),
+        (index_name, moqarare_query, "مقررات", ""),
+        (index_name, nazar_mashverati_query, "نظر مشورتی", ""),
+        (index_name, ara_query, "رأی", "")
+    ]
+
     ids = {}
     for index_name, res_query, level, prefix in data_to_search:
         last_id = "0"
@@ -297,10 +337,9 @@ def apply():
                     ids[item["_id"]] = True
                     all_data.append(item)
             del data
-            new_index = ParagraphIndex(index_name, setting, mapping)
+            new_index = IndexObjectWithId(index_name, setting, mapping)
             new_index.create()
             new_index.bulk_insert_documents(all_data)
-
 
     asnad_bala_dasti_query = {
         "bool":
@@ -312,7 +351,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "bool": {
                                 "should": [
@@ -354,7 +399,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "term":
                                 {
@@ -374,7 +425,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "bool": {
                                 "should": [
@@ -404,7 +461,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "bool": {
                                 "should": [
@@ -489,7 +552,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "term":
                                 {
@@ -509,7 +578,13 @@ def apply():
                                 {
                                     "document_source_id": SOURCE_ID
                                 }
-                        } ,
+                        } if patch_obj is None else
+                        {
+                            "terms":
+                                {
+                                    "document_id": patch_obj
+                                }
+                        },
                         {
                             "term":
                                 {
@@ -523,13 +598,15 @@ def apply():
     index_name = PARAGRAPH_MAPPING.NAME
     setting = PARAGRAPH_SETTING.SETTING
     mapping = PARAGRAPH_MAPPING.MAPPING
-    data_to_search = [(index_name, asnad_bala_dasti_query, "اسناد بالا دستی", "document_"),
-                      (index_name, qanoon_query_type, "قانون", "document_"),
-                      (index_name, qanoon_query, "قانون", "document_"),
-                      (index_name, moqarare_query, "مقررات", "document_"),
-                      (index_name, nazar_mashverati_query, "نظر مشورتی", "document_"),
-                      (index_name, ara_query, "رأی", "document_"),
-                      (index_name, {"term": {"document_source_id": SOURCE_ID}}, "سایر", "document_")]
+
+    data_to_search = [
+        (index_name, asnad_bala_dasti_query, "اسناد بالا دستی", "document_"),
+        (index_name, qanoon_query_type, "قانون", "document_"),
+        (index_name, qanoon_query, "قانون", "document_"),
+        (index_name, moqarare_query, "مقررات", "document_"),
+        (index_name, nazar_mashverati_query, "نظر مشورتی", "document_"),
+        (index_name, ara_query, "رأی", "document_")
+    ]
 
     ids = {}
     for index_name, res_query, level, prefix in data_to_search:
@@ -539,12 +616,15 @@ def apply():
             data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=10000)
             if len(data) == 0:
                 break
+
             for item in data:
                 if ids.get(item["_id"]) is None:
                     ids[item["_id"]] = True
                     all_data.append(item)
+
             del data
-            new_index = ParagraphIndex(index_name, setting, mapping)
+
+            new_index = IndexObjectWithId(index_name, setting, mapping)
             new_index.create()
             new_index.bulk_insert_documents(all_data)
 

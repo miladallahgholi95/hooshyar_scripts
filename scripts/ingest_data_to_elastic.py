@@ -137,7 +137,7 @@ def apply():
 def extract_data(source_id, source_name, hash_id, file_path, excel_file_dict, affect_data_dict, document_text):
 
     document_dict = {"_id": hash_id, "file_path": file_path, "source_id": source_id, "source_name": source_name,
-                     "content": document_text, "type": "نامشخص", "level": "نامشخص",
+                     "content": document_text, "type": "سایر", "level": "سایر",
                      "keyword_subjects": {}, "keyword_main_subject": "", "keyword_subjects_words": {}, "actors": {},
                      "main_subject": "", "subjects": {}}
 
@@ -165,7 +165,7 @@ def extract_data(source_id, source_name, hash_id, file_path, excel_file_dict, af
                               "document_datetime": document_dict["datetime"],
                               "document_last_status": document_dict["last_status"],
                               "document_category": document_dict["category"], "paragraph_number": paragraph_cntr,
-                              "content": paragraph_text, "document_type": "نامشخص", "document_level": "نامشخص",
+                              "content": paragraph_text, "document_type": "سایر", "document_level": "سایر",
                               "keyword_subjects": {}, "keyword_main_subject": "", "keyword_subjects_words": {},
                               "document_keyword_main_subject": "", "sentiment": "", "main_subject": "", "subjects": {},
                               "entities": [{}]}
