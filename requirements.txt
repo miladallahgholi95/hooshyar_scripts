@@ -14,3 +14,4 @@ protobuf
 sshtunnel
 scipy==1.10.1
 jdatetime~=5.0.0
+hazm==0.10.0
