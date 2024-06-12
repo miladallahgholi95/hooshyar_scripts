@@ -290,17 +290,15 @@ def add_doc_subject_to_para_data(doc_subject_dict, paragraph_data):
 
 
 def apply(patch_obj):
-    
     paragraph_score_dict, para_subject_keyword_dictionary = get_subject_para_keyword_data(SOURCE_ID, patch_obj=patch_obj)
-
     para_data, document_score_dict, document_subject_keyword_dictionary = extract_paragraph_data_for_add(SOURCE_ID, paragraph_score_dict, para_subject_keyword_dictionary, patch_obj=patch_obj)
-
     doc_data, doc_subject_dict = extract_document_data(SOURCE_ID, document_score_dict, document_subject_keyword_dictionary, patch_obj=patch_obj)
-
     para_data = add_doc_subject_to_para_data(doc_subject_dict, para_data)
 
     index_name = PARAGRAPH_MAPPING.NAME
-    
+    setting = PARAGRAPH_SETTING.SETTING
+    mapping = PARAGRAPH_MAPPING.MAPPING
+
     import math
     batch_size = 100000
     slice_count = math.ceil(para_data.__len__() / batch_size)
@@ -308,8 +306,6 @@ def apply(patch_obj):
         start_idx = i * batch_size
         end_idx = min(start_idx + batch_size, para_data.__len__())
         sub_list = para_data[start_idx:end_idx]
-        setting = PARAGRAPH_SETTING.SETTING
-        mapping = PARAGRAPH_MAPPING.MAPPING
         new_index = ParagraphIndex(index_name, setting, mapping)
         new_index.create()
         new_index.bulk_insert_documents(sub_list)
