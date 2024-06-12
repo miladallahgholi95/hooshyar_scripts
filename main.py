@@ -7,7 +7,7 @@ print("------------------------------------------\nExtract ZIP File\n-----------
 zip_extractor.extractor(ZIP_FILE_PATH, PATH_TO_EXTRACT_FILES)
 
 print("------------------------------------------\nSource To Elastic\n------------------------------------------")
-# source_to_elastic.apply()
+source_to_elastic.apply()
 
 print("------------------------------------------\nData To Elastic\n------------------------------------------")
 ingest_data_to_elastic.apply()
