@@ -14,7 +14,6 @@ def ingest_documents(index_obj, documents):
                                                     body=delete_query)
 
         print(f"Documents in {index_obj.name} deleted:")
-        print(delete_response)
         print("-----------------------------------------------------------------")
 
         # Check deletion:

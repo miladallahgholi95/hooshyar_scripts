@@ -1,4 +1,4 @@
-from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, IndexObjectWithId
+from elastic.connection import ESIndex, ES_CLIENT, SEARCH_WINDOW_SIZE, IndexObjectWithId
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING, REFERENCES_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
@@ -19,7 +19,7 @@ def extract_document_list(source_index, source_id, last_id="0"):
             "must_not": [
                 {
                     "term": {
-                        "type": "نامشخص"
+                        "type": "سایر"
                     }
                 }
             ]
@@ -30,7 +30,7 @@ def extract_document_list(source_index, source_id, last_id="0"):
     result = []
     while True:
         index_name = source_index
-        response = ESIndex.CLIENT.search(
+        response = ES_CLIENT.search(
             index=index_name,
             query=res_query,
             size=SEARCH_WINDOW_SIZE,
@@ -212,7 +212,7 @@ def get_new_ref_list(base_list, check_list):
 
 def apply():
 
-    index_name = DOCUMENT_MAPPING.MAPPING
+    index_name = DOCUMENT_MAPPING.NAME
 
     document_list = extract_document_list(index_name, SOURCE_ID)
 

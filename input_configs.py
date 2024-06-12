@@ -52,4 +52,4 @@ RUN_VECTOR_MODULE = False
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
 
-VECTOR_MODEL_PATH = "./law+LM_Pbert"
+VECTOR_MODEL_PATH = None # "./law+LM_Pbert"

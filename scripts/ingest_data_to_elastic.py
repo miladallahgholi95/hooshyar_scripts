@@ -115,8 +115,8 @@ def apply():
                 document_ingest_list.append(document_dict)
                 paragraph_ingest_list += paragraph_dict_list
             if document_ingest_list.__len__() == CONFIG["add_bulk_size"]:
-                ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
                 objects_ids += [row["_id"] for row in document_ingest_list]
+                ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
                 document_ingest_list = []
                 paragraph_ingest_list = []
 
@@ -124,8 +124,8 @@ def apply():
             print(file_path, "\nError:", e)
 
     # insert last data to indexes
-    ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
     objects_ids += [row["_id"] for row in document_ingest_list]
+    ingest_data_to_elastic(document_ingest_list, paragraph_ingest_list)
 
     end_time = time.time()
 
