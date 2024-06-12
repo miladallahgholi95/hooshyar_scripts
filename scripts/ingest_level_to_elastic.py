@@ -555,7 +555,6 @@ def apply():
             data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=10000)
             if len(data) == 0:
                 break
-
             for item in data:
                 if ids.get(item["_id"]) is None:
                     ids[item["_id"]] = True
