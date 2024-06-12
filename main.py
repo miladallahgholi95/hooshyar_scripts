@@ -2,7 +2,7 @@ from utils import zip_extractor
 from input_configs import *
 from scripts import (source_to_elastic, ingest_data_to_elastic, ingest_type_to_elastic, ingest_level_to_elastic,
                      ingest_subject_keyword_to_elastic, ingest_all_actors_to_elastic, ingest_affected_graph_to_elastic,
-                     ingest_references_to_elastic, ingest_clustering_to_elastic, ingest_actors_to_elastic)
+                     ingest_references_to_elastic, ingest_clustering_to_elastic, ingest_actors_to_elastic, ingest_vectors_to_elastic)
 
 
 print("------------------------------------------\nExtract ZIP File\n------------------------------------------")
@@ -37,3 +37,6 @@ ingest_references_to_elastic.apply()
 
 print("------------------------------------------\nClustering To Elastic\n------------------------------------------")
 ingest_clustering_to_elastic.apply()
+
+print("------------------------------------------\nVectors To Elastic\n------------------------------------------")
+ingest_vectors_to_elastic.apply(objects_ids)

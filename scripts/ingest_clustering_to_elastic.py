@@ -8,11 +8,10 @@ from sklearn.metrics.pairwise import euclidean_distances, cosine_similarity
 import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
-from elastic.connection import ESIndex, ES_CLIENT, SEARCH_WINDOW_SIZE, IndexObjectWithId
+from elastic.connection import ESIndex, ES_CLIENT, SEARCH_WINDOW_SIZE
 from input_configs import *
-from elastic.MAPPINGS import PARAGRAPH_MAPPING, CLUSTERING_PARAGRAPHS_MAPPING, CLUSTERING_INFO_MAPPING, \
-    CLUSTERING_CHARTS_MAPPING
-from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
+from elastic.MAPPINGS import PARAGRAPH_MAPPING, CLUSTERING_PARAGRAPHS_MAPPING, CLUSTERING_INFO_MAPPING, CLUSTERING_CHARTS_MAPPING
+from elastic.SETTINGS import DOCUMENT_SETTING
 
 CURRENT_VECTOR_ID = 1
 
