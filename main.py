@@ -1,6 +1,6 @@
 from utils import zip_extractor
 from input_configs import *
-from scripts import source_to_elastic, ingest_data_to_elastic, ingest_type_to_elastic, ingest_level_to_elastic
+from scripts import source_to_elastic, ingest_data_to_elastic, ingest_type_to_elastic, ingest_level_to_elastic, ingest_subject_keyword_to_elastic
 
 
 print("------------------------------------------\nExtract ZIP File\n------------------------------------------")
@@ -17,3 +17,6 @@ ingest_type_to_elastic.apply()
 
 print("------------------------------------------\nLevel To Elastic\n------------------------------------------")
 ingest_level_to_elastic.apply()
+
+print("------------------------------------------\nSubject To Elastic\n------------------------------------------")
+ingest_subject_keyword_to_elastic.apply()

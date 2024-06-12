@@ -51,3 +51,4 @@ RUN_VECTOR_MODULE = False
 
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
+
