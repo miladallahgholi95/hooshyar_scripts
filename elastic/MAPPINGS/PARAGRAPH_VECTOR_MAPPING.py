@@ -1,4 +1,4 @@
-NAME = "hooshyar3_paragraphs_vector_index_v33i"
+NAME = "hooshyar_paragraphs_vector_index"
 MAPPING = {
       "properties": {
         "content": {

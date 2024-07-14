@@ -3,8 +3,8 @@ import hazm
 from copy import deepcopy
 from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
 from input_configs import *
-from elastic.MAPPINGS import PARAGRAPH_VECTOR_MAPPING
-from elastic.SETTINGS import  PARAGRAPH_SETTING
+from elastic.MAPPINGS import PARAGRAPH_VECTOR_MAPPING, PARAGRAPH_MAPPING
+from elastic.SETTINGS import PARAGRAPH_SETTING
 from sentence_transformers import models, SentenceTransformer
 
 normalizer = hazm.Normalizer()
@@ -80,7 +80,7 @@ def get_exist_last_id(source_id):
         }
     }
     response = ESIndex.CLIENT.search(
-        index="hooshyar3_paragraphs_vector_index_v2",
+        index=PARAGRAPH_VECTOR_MAPPING.NAME,
         query=res_query,
         size=1,
         sort=[{"_id": {"order": "desc"}}]
@@ -120,7 +120,7 @@ def get_data_list(source_id, last_id, patch_obj):
     corpus_meta_data = []
     while True:
         response = ESIndex.CLIENT.search(
-            index="hooshyar3_paragraph_index_v2",
+            index=PARAGRAPH_MAPPING.NAME,
             query=res_query,
             size=SEARCH_WINDOW_SIZE,
             search_after=[last_id] if last_id != "0" else None,

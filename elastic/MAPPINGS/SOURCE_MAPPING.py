@@ -1,4 +1,4 @@
-NAME = "hooshyar3_country_index_v33i"
+NAME = "hooshyar_country_index"
 MAPPING = {
       "properties": {
         "name": {

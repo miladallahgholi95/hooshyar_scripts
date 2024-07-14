@@ -1,4 +1,4 @@
-NAME = "hooshyar3_references_index_v33i"
+NAME = "hooshyar_references_index"
 MAPPING = {
       "properties": {
         "edge_data": {

@@ -1,4 +1,4 @@
-NAME = "hooshyar3_clustering_charts_index_v33i"
+NAME = "hooshyar_clustering_charts_index"
 MAPPING = {
       "properties": {
         "algorithm": {

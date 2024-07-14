@@ -1,4 +1,4 @@
-NAME = "hooshyar3_actors_index_v33i"
+NAME = "hooshyar_actors_index"
 MAPPING = {
       "properties": {
         "area": {
