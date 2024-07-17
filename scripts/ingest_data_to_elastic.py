@@ -1,5 +1,6 @@
 import glob
 import pandas as pd
+import re
 from input_configs import *
 from collections import defaultdict
 from statistics import mean
@@ -19,6 +20,13 @@ def text_abs_length(text):
 
     return len(text)
 
+def clean_title(text):
+    special_chars = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/~`"
+    text = text.strip()
+    text = re.sub(f'^[{re.escape(special_chars)}]+', '', text)
+    text = re.sub(f'[{re.escape(special_chars)}]+$', '', text)
+    text = text.strip()
+    return text
 
 
 def dictionary_list_averager(input_list):
@@ -146,6 +154,8 @@ def extract_data(source_id, source_name, hash_id, file_path, excel_file_dict, af
     affect_data = affect_data_dict[hash_id]
     del static_data["_id"]
     for key, value in static_data.items():
+        if key == "name":
+            value = clean_title(value)
         document_dict[key] = value
     for key, value in affect_data.items():
         document_dict[key] = value
