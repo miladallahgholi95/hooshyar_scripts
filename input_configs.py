@@ -2,8 +2,8 @@ import os
 import shutil
 import jdatetime
 
-ZIP_FILE_PATH = "data/files.zip"
-EXCEL_FILE_PATH = "data/data.xlsx"
+ZIP_FILE_PATH = "/mnt/Data1/data/files.zip"
+EXCEL_FILE_PATH = "/mnt/Data1/data//data.xlsx"
 SOURCE_ID = 1
 SOURCE_NAME = "مجموعه‌داده هوشیار"
 SOURCE_LANGUAGE = "FA"
