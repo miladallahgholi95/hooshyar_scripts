@@ -98,7 +98,10 @@ def get_subject_para_keyword_data(country, patch_obj=None):
 
     para_subject_keyword_dictionary = {}
 
+    cntr = 0
     for subject, key_list in subject_dictionary.items():
+        cntr += 1
+        print(f"extract paragraph keywords {cntr}/{len(subject_dictionary.keys())}")
         for keyword in key_list:
 
             para_list = extract_paragraph_data(keyword, country, patch_obj)
@@ -150,7 +153,7 @@ def extract_paragraph_data_for_add(country, paragraph_score_dict, para_subject_k
                 "document_id": patch_obj
             }
         }
-
+    cntr = 0
     while True:
         response = ESIndex.CLIENT.search(
             index=PARAGRAPH_MAPPING.NAME,
@@ -164,6 +167,9 @@ def extract_paragraph_data_for_add(country, paragraph_score_dict, para_subject_k
 
         if hits_count == 0:
             break
+
+        cntr += SEARCH_WINDOW_SIZE
+        print("Extract Paragraph Data for Add", cntr)
 
         for hit in hits_data:
             _id = hit["_id"]
@@ -246,6 +252,7 @@ def extract_document_data(country, document_score_dict, document_subject_keyword
             }
         }
 
+    cntr  = 0
     while True:
         response = ESIndex.CLIENT.search(
             index=DOCUMENT_MAPPING.NAME,
@@ -259,6 +266,9 @@ def extract_document_data(country, document_score_dict, document_subject_keyword
 
         if hits_count == 0:
             break
+
+        cntr += SEARCH_WINDOW_SIZE
+        print("Extract Document Data: ", cntr)
 
         for hit in hits_data:
             _id = hit["_id"]
