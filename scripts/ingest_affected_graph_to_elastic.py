@@ -117,7 +117,7 @@ def get_document_list(country, patch_obj):
         res_query = {
             "term":
                 {
-                    "source_id": country.id
+                    "source_id": country
                 }
         }
     else:
