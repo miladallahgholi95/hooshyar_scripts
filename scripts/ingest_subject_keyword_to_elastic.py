@@ -123,7 +123,11 @@ def get_subject_para_keyword_data(country, patch_obj=None):
                 para_subject_keyword_dictionary[para_id][subject] = []
 
     paragraph_score_dict = {}
+    cntr = 0
     for para_id, value in para_subject_keyword_dictionary.items():
+        cntr += 1
+        print(f"normailize score {cntr}/{len(para_subject_keyword_dictionary.keys())}")
+
         para_subject_score_dict = {}
         for subject in subject_list:
             para_subject_score_dict[subject] = 0
