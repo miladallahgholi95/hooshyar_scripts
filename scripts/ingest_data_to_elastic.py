@@ -363,7 +363,7 @@ def extract_excel_affect_related_data(excel_dataframe, field_names_list):
 def excel_affect_relation_data_to_dict(excel_dataframe, field_names_list):
     PID_DATA_DICT = {}
     for index, row in excel_dataframe.iterrows():
-        pid = int(row[field_names_list["affect_relation_data"]["pid"]])
+        pid = int(row[field_names_list["affect_relation_data"]["pid"]].replace("?IDS=", ""))
         hashed_file_name = row[field_names_list["_id"]]
         PID_DATA_DICT[pid] = hashed_file_name
 
