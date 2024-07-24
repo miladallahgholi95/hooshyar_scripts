@@ -224,7 +224,10 @@ def apply():
     doc_ref_para_dict = {}
     seen_paragraphs = {}
 
+    cntr = 0
     for _doc in document_list:
+
+        print(f"extract ref [{cntr}/ {document_list.__len__()}]")
 
         target_document_id = _doc["_id"]
         target_document_name = _doc["name"]
