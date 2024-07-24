@@ -52,4 +52,4 @@ RUN_VECTOR_MODULE = True
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
 
-VECTOR_MODEL_PATH = "/mnt/Data1/hooshyar_scripts/law+LM_Pbert"
+VECTOR_MODEL_PATH = "/mnt/Data1/law+LM_Pbert"
