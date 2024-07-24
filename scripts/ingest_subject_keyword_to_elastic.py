@@ -100,9 +100,10 @@ def get_subject_para_keyword_data(country, patch_obj=None):
 
     cntr = 0
     for subject, key_list in subject_dictionary.items():
-        cntr += 1
-        print(f"extract paragraph keywords {cntr}/{len(subject_dictionary.keys())}")
+
         for keyword in key_list:
+            cntr += 1
+            print(f"extract paragraph keywords {cntr}")
 
             para_list = extract_paragraph_data(keyword, country, patch_obj)
 
