@@ -302,6 +302,7 @@ def apply(patch_obj):
     batch_size = 100000
     slice_count = math.ceil(para_data.__len__() / batch_size)
     for i in range(slice_count):
+        print(f"Insert in Paragraph Index {i}/{slice_count}")
         start_idx = i * batch_size
         end_idx = min(start_idx + batch_size, para_data.__len__())
         sub_list = para_data[start_idx:end_idx]
