@@ -159,7 +159,6 @@ def apply(patch_obj=None):
                                DOCUMENT_SETTING.SETTING,
                                SOURCE_ID,
                                patch_obj)
-
     # ------------------------------------------------------------------
 
     end_time = time.time()
