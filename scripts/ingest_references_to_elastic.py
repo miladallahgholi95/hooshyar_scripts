@@ -226,7 +226,7 @@ def apply():
 
     cntr = 0
     for _doc in document_list:
-
+        cntr += 1
         print(f"extract ref [{cntr}/ {document_list.__len__()}]")
 
         target_document_id = _doc["_id"]
