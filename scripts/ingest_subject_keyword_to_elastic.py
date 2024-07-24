@@ -1,4 +1,4 @@
-from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
+from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE, IndexObjectWithId
 from input_configs import *
 from elastic.MAPPINGS import DOCUMENT_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import DOCUMENT_SETTING, PARAGRAPH_SETTING
@@ -58,21 +58,6 @@ def extract_paragraph_data(keyword, country, patch_obj):
 
     return result
 
-
-class ParagraphIndex(ESIndex):
-    def __init__(self, name, settings, mappings):
-        super().__init__(name, settings, mappings)
-
-    def generate_docs(self, paragraphs):
-        for paragraph in paragraphs:
-            paragraph_id = paragraph["_id"]
-            del paragraph["_id"]
-            new_paragraph = {
-                "_index": self.name,
-                "_id": paragraph_id,
-                "_source": paragraph,
-            }
-            yield new_paragraph
 
 
 def normalize_dictionary(dictionary):
@@ -320,14 +305,14 @@ def apply(patch_obj):
         start_idx = i * batch_size
         end_idx = min(start_idx + batch_size, para_data.__len__())
         sub_list = para_data[start_idx:end_idx]
-        new_index = ParagraphIndex(index_name, setting, mapping)
+        new_index = IndexObjectWithId(index_name, setting, mapping)
         new_index.create()
         new_index.bulk_insert_documents(sub_list)
 
     index_name = DOCUMENT_MAPPING.NAME
     setting = DOCUMENT_SETTING.SETTING
     mapping = DOCUMENT_MAPPING.MAPPING
-    new_index = ParagraphIndex(index_name, setting, mapping)
+    new_index = IndexObjectWithId(index_name, setting, mapping)
     new_index.create()
     new_index.bulk_insert_documents(doc_data)
 
