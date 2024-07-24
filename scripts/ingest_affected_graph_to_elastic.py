@@ -166,12 +166,22 @@ def apply(patch_obj=None):
     document_list_with_graph_data = add_graphs_data(document_list)
 
     # -------------------- ingest documents --------------------------
-    new_index = IndexObjectWithId(
-        DOCUMENT_MAPPING.NAME,
-        DOCUMENT_SETTING.SETTING,
-        DOCUMENT_MAPPING.MAPPING)
-    new_index.create()
-    new_index.bulk_insert_documents(document_list_with_graph_data)
+
+    import math
+    batch_size = 100000
+    slice_count = math.ceil(document_list_with_graph_data.__len__() / batch_size)
+    for i in range(slice_count):
+        print(f"Insert in Paragraph Index {i}/{slice_count}")
+        start_idx = i * batch_size
+        end_idx = min(start_idx + batch_size, document_list_with_graph_data.__len__())
+        sub_list = document_list_with_graph_data[start_idx:end_idx]
+        new_index = IndexObjectWithId(
+                        DOCUMENT_MAPPING.NAME,
+                        DOCUMENT_SETTING.SETTING,
+                        DOCUMENT_MAPPING.MAPPING
+                    )
+        new_index.create()
+        new_index.bulk_insert_documents(sub_list)
 
     end_time = time.time()
 
