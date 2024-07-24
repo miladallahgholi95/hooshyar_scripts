@@ -19,8 +19,8 @@ from scripts import (source_to_elastic, ingest_data_to_elastic, ingest_type_to_e
 
 objects_ids = None
 
-print("------------------------------------------\nType To Elastic\n------------------------------------------")
-ingest_type_to_elastic.apply(objects_ids)
+# print("------------------------------------------\nType To Elastic\n------------------------------------------")
+# ingest_type_to_elastic.apply(objects_ids)
 
 print("------------------------------------------\nLevel To Elastic\n------------------------------------------")
 ingest_level_to_elastic.apply(objects_ids)
