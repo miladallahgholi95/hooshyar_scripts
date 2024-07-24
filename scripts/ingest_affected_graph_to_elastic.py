@@ -183,6 +183,7 @@ def apply(patch_obj=None):
         new_index.create()
         new_index.bulk_insert_documents(sub_list)
 
+
     end_time = time.time()
 
     print("graph_data added  in {} seconds".format(end_time - start_time))
