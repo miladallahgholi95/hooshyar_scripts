@@ -326,12 +326,12 @@ def apply(patch_obj=None):
     ids = {}
     cntr = 0
     for index_name, res_query, level, prefix in data_to_search:
+        cntr += 1
         last_id = "0"
         while True:
+            print(f"[ Document {cntr} / {len(data_to_search)} ]")
             all_data = []
             data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=20000)
-            cntr += 20000
-            print(cntr)
             if len(data) == 0:
                 break
 
@@ -615,11 +615,11 @@ def apply(patch_obj=None):
     cntr = 0
     for index_name, res_query, level, prefix in data_to_search:
         last_id = "0"
+        cntr += 1
         while True:
+            print(f"[ Paragraph {cntr} / {len(data_to_search)} ]")
             all_data = []
             data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=20000)
-            cntr += 20000
-            print(cntr)
             if len(data) == 0:
                 break
 
