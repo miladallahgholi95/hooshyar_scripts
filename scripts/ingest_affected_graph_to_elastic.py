@@ -168,7 +168,7 @@ def apply(patch_obj=None):
     # -------------------- ingest documents --------------------------
 
     import math
-    batch_size = 100000
+    batch_size = 1000
     slice_count = math.ceil(document_list_with_graph_data.__len__() / batch_size)
     for i in range(slice_count):
         print(f"Insert in Paragraph Index {i}/{slice_count}")
