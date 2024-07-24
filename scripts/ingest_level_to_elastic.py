@@ -328,7 +328,7 @@ def apply(patch_obj=None):
         last_id = "0"
         while True:
             all_data = []
-            data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=10000)
+            data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=5000)
             if len(data) == 0:
                 break
 
@@ -613,7 +613,7 @@ def apply(patch_obj=None):
         last_id = "0"
         while True:
             all_data = []
-            data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=10000)
+            data, last_id = extract_document_level_data(index_name, res_query, level, prefix, last_id, size=5000)
             if len(data) == 0:
                 break
 
