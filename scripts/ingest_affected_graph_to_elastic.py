@@ -92,97 +92,74 @@ def create_graph_data(doc, graph_type):
     return nodes_data, edges_data
 
 
-def add_graphs_data(doc_list):
-    docs_ctr = 0
-
-    all_docs_count = len(doc_list)
-
-    for doc in doc_list:
-        docs_ctr += 1
-        print(f"{round(docs_ctr / all_docs_count, 2) * 100}% ...")
-
-        for graph_type in GRAPH_TYPE_FIELDS:
-            nodes_data, edges_data = create_graph_data(doc, graph_type)
-
-            doc["_source"][graph_type] = {
-                "nodes_data": nodes_data,
-                "edges_data": edges_data,
-            }
-
-    return doc_list
-
-
-def get_document_list(country, patch_obj):
+def extract_document_type_data(index_name, index_mapping, index_setting, source_id, patch_obj=None, ):
     if patch_obj is None:
         res_query = {
-            "term":
-                {
-                    "source_id": country
-                }
+            "term": {
+                "source_id":  source_id
+            }
         }
     else:
         res_query = {
-            "terms":
-                {
-                    "_id": patch_obj
-                }
+            "terms": {
+                "_id": patch_obj
+            }
         }
 
-    # get all document size
-    index_document_size = ES_CLIENT.count(body={
-        "query": res_query
-    }, index=DOCUMENT_MAPPING.NAME)['count']
+    result = []
+    i = 0
+    while True:
+        index_name = index_name
+        response = ESIndex.CLIENT.search(
+            index=index_name,
+            query=res_query,
+            size=SEARCH_WINDOW_SIZE,
+            search_after=[last_id] if last_id != "0" else None,
+            sort=[{"_id": {"order": "asc"}}]
+        )
+        hits_data = response['hits']['hits']
+        hits_count = len(hits_data)
 
-    # index_document_size = 100
+        if hits_count == 0:
+            break
 
-    # change result window size
-    if index_document_size > SEARCH_WINDOW_SIZE:
-        ES_CLIENT.indices.put_settings(index=DOCUMENT_MAPPING.NAME,
-                                       body={"index": {
-                                           "max_result_window": index_document_size
-                                       }})
+        i += SEARCH_WINDOW_SIZE
+        print("====> ", i)
 
-    response = ES_CLIENT.search(index=DOCUMENT_MAPPING.NAME,
-                                request_timeout=120,
-                                query=res_query,
-                                size=index_document_size
-                                )
+        last_id = hits_data[-1]["_id"]
 
-    # change result window size to default
-    if index_document_size > SEARCH_WINDOW_SIZE:
-        ES_CLIENT.indices.put_settings(index=DOCUMENT_MAPPING.NAME,
-                                    body={"index": {
-                                        "max_result_window": SEARCH_WINDOW_SIZE
-                                    }})
+        for hit in hits_data:
+            _id = hit["_id"]
+            _source = hit['_source']
+            _source["_id"] = _id
+            for graph_type in GRAPH_TYPE_FIELDS:
+                nodes_data, edges_data = create_graph_data(hit, graph_type)
+                _source[graph_type] = {
+                    "nodes_data": nodes_data,
+                    "edges_data": edges_data,
+                }
+            result.append(_source)
 
-    return response['hits']['hits']
+        if result.__len__() % 20000 == 0:
+            new_index = IndexObjectWithId(index_name, index_setting, index_mapping)
+            new_index.bulk_insert_documents(result)
+            result = []
 
+    if result.__len__() > 0:
+        new_index = IndexObjectWithId(index_name, index_setting, index_mapping)
+        new_index.bulk_insert_documents(result)
 
 def apply(patch_obj=None):
     start_time = time.time()
 
     # ------------------------------------------------------------------
-    document_list = get_document_list(SOURCE_ID, patch_obj)
-    document_list_with_graph_data = add_graphs_data(document_list)
+    extract_document_type_data(DOCUMENT_MAPPING.NAME,
+                               DOCUMENT_MAPPING.MAPPING,
+                               DOCUMENT_SETTING.SETTING,
+                               SOURCE_ID,
+                               patch_obj)
 
-    # -------------------- ingest documents --------------------------
-
-    import math
-    batch_size = 1000
-    slice_count = math.ceil(document_list_with_graph_data.__len__() / batch_size)
-    for i in range(slice_count):
-        print(f"Insert in Paragraph Index {i}/{slice_count}")
-        start_idx = i * batch_size
-        end_idx = min(start_idx + batch_size, document_list_with_graph_data.__len__())
-        sub_list = document_list_with_graph_data[start_idx:end_idx]
-        new_index = IndexObjectWithId(
-                        DOCUMENT_MAPPING.NAME,
-                        DOCUMENT_SETTING.SETTING,
-                        DOCUMENT_MAPPING.MAPPING
-                    )
-        new_index.create()
-        new_index.bulk_insert_documents(sub_list)
-
+    # ------------------------------------------------------------------
 
     end_time = time.time()
 
