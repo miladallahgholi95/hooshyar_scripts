@@ -28,6 +28,7 @@ def extract_document_type_data(index_name, index_mapping, index_setting, prefix,
             }
 
     result = []
+    i = 0
     while True:
         index_name = index_name
         response = ESIndex.CLIENT.search(
@@ -43,6 +44,8 @@ def extract_document_type_data(index_name, index_mapping, index_setting, prefix,
         if hits_count == 0:
             break
 
+        i += SEARCH_WINDOW_SIZE
+        print("====> ", i)
         last_id = hits_data[-1]["_id"]
         for hit in hits_data:
             _id = hit["_id"]
