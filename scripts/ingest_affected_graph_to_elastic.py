@@ -141,7 +141,7 @@ def extract_document_type_data(index_name, index_mapping, index_setting, source_
                 }
             result.append(_source)
 
-        if result.__len__() % 20000 == 0:
+        if result.__len__() % 10000 == 0:
             new_index = IndexObjectWithId(index_name, index_setting, index_mapping)
             new_index.bulk_insert_documents(result)
             result = []
