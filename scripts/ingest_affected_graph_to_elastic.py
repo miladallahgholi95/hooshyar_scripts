@@ -106,6 +106,7 @@ def extract_document_type_data(index_name, index_mapping, index_setting, source_
             }
         }
 
+    last_id = "0"
     result = []
     i = 0
     while True:
