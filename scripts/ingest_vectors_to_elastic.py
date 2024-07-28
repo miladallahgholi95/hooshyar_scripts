@@ -192,7 +192,7 @@ def apply(patch_obj=None):
     else:
         exist_last_id = "0"
 
-    corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_last_id, patch_obj)
+    # corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_last_id, patch_obj)
 
     # Create index
     paragraph_vector_setting = PARAGRAPH_SETTING.SETTING
