@@ -162,6 +162,7 @@ def extract_document_references(source_index, document_name, date_time, last_id=
 
         if document_name == "قانون تجارت الکترونیکی":
             print(res_query)
+            print(hits_count)
 
         for hit in hits_data:
             _id = hit["_id"]
