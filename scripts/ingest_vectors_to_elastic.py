@@ -192,7 +192,7 @@ def apply(patch_obj=None):
     else:
         exist_last_id = "0"
 
-    corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_last_id, patch_obj)
+    # corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_last_id, patch_obj)
 
     # Create index
     paragraph_vector_setting = PARAGRAPH_SETTING.SETTING
@@ -204,24 +204,24 @@ def apply(patch_obj=None):
                                                        paragraph_vector_mapping)
     paragraph_vector_new_index.create()
 
-    # Load Models
-
-    if not VECTOR_MODEL_PATH:
-        return
-
-    fine_tune_model = load_st_model(VECTOR_MODEL_PATH)
-
-    # Create Embedding and Save to Elastic
-    batch_size = 20000
-    batch_count = int(len(corpus) / batch_size) + 1
-
-    for batch_number in range(batch_count):
-        start_idx = batch_number * batch_size
-        end_idx = (batch_number + 1) * batch_size
-        split_corpus = corpus[start_idx: end_idx]
-        split_corpus_meta_data = corpus_meta_data[start_idx: end_idx]
-        print(f"*****************************{batch_number} / {batch_count}*************************************")
-        corpus_embeddings1 = fine_tune_model.encode(deepcopy(split_corpus), show_progress_bar=True)
-        for i in range(corpus_embeddings1.__len__()):
-            split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
-        paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
+    # # Load Models
+    #
+    # if not VECTOR_MODEL_PATH:
+    #     return
+    #
+    # fine_tune_model = load_st_model(VECTOR_MODEL_PATH)
+    #
+    # # Create Embedding and Save to Elastic
+    # batch_size = 20000
+    # batch_count = int(len(corpus) / batch_size) + 1
+    #
+    # for batch_number in range(batch_count):
+    #     start_idx = batch_number * batch_size
+    #     end_idx = (batch_number + 1) * batch_size
+    #     split_corpus = corpus[start_idx: end_idx]
+    #     split_corpus_meta_data = corpus_meta_data[start_idx: end_idx]
+    #     print(f"*****************************{batch_number} / {batch_count}*************************************")
+    #     corpus_embeddings1 = fine_tune_model.encode(deepcopy(split_corpus), show_progress_bar=True)
+    #     for i in range(corpus_embeddings1.__len__()):
+    #         split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
+    #     paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
