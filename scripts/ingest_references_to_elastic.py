@@ -160,10 +160,6 @@ def extract_document_references(source_index, document_name, date_time, last_id=
 
         last_id = hits_data[-1]["_id"]
 
-        if document_name == "قانون تجارت الکترونیکی":
-            print(res_query)
-            print(hits_count)
-
         for hit in hits_data:
             _id = hit["_id"]
             _source = hit['_source']
@@ -231,6 +227,9 @@ def apply():
     seen_paragraphs = {}
 
     cntr = 0
+
+    index_name = PARAGRAPH_MAPPING.NAME
+
     for _doc in document_list:
         cntr += 1
         print(f"extract ref [{cntr}/ {document_list.__len__()}]")
