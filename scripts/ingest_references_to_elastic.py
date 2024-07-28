@@ -153,6 +153,7 @@ def extract_document_references(source_index, document_name, date_time, last_id=
         hits_data = response['hits']['hits']
         hits_count = len(hits_data)
         print(hits_count)
+        print(res_query)
 
         if hits_count == 0:
             break
