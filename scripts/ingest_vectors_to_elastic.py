@@ -184,7 +184,7 @@ def load_st_model(model_name_or_path):
 
 
 def apply(patch_obj=None):
-    check_exist_id = False
+    check_exist_id = True
 
     # Check Exist
     if check_exist_id:
