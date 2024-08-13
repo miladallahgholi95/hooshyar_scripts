@@ -73,23 +73,36 @@ def sentence_extraction(text):
     return sentences
 
 
-def get_exist_last_id(source_id):
+def get_exist_id(source_id):
     res_query = {
         "term": {
             "source_id": source_id
         }
     }
-    response = ESIndex.CLIENT.search(
-        index=PARAGRAPH_VECTOR_MAPPING.NAME,
-        query=res_query,
-        size=1,
-        sort=[{"_id": {"order": "desc"}}]
-    )
-    last_id = response['hits']['hits'][0]["_id"]
-    return last_id
+
+    last_id = "0"
+    ids_list = []
+    while True:
+        response = ESIndex.CLIENT.search(
+            index=PARAGRAPH_VECTOR_MAPPING.NAME,
+            query=res_query,
+            size=SEARCH_WINDOW_SIZE,
+            search_after=[last_id] if last_id != "0" else None,
+            sort=[{"_id": {"order": "asc"}}]
+        )
+        hits_data = response['hits']['hits']
+        hits_count = len(hits_data)
+
+        if hits_count == 0:
+            break
+
+        for row in hits_data:
+            ids_list.append(row["_id"])
+
+    return ids_list
 
 
-def get_data_list(source_id, last_id, patch_obj):
+def get_data_list(source_id, exist_ids_list, patch_obj):
     res_query = {
         "bool":
             {
@@ -109,6 +122,14 @@ def get_data_list(source_id, last_id, patch_obj):
                         {
                             "term": {
                                 "document_type": "قانون"
+                            }
+                        }
+                    ],
+                "must_not":
+                    [
+                        {
+                            "terms": {
+                                "_id": exist_ids_list
                             }
                         }
                     ]
@@ -188,11 +209,11 @@ def apply(patch_obj=None):
 
     # Check Exist
     if check_exist_id:
-        exist_last_id = get_exist_last_id(SOURCE_ID)
+        exist_ids_list = get_exist_id(SOURCE_ID)
     else:
-        exist_last_id = "0"
+        exist_ids_list = []
 
-    corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_last_id, patch_obj)
+    corpus, corpus_meta_data = get_data_list(SOURCE_ID, exist_ids_list, patch_obj)
 
     # Create index
     paragraph_vector_setting = PARAGRAPH_SETTING.SETTING
