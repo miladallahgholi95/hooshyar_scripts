@@ -460,16 +460,19 @@ def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, c
         info_index.create()
     else:
         info_index.delete_index()
+        info_index.create()
 
     if not ESIndex.CLIENT.indices.exists(index=CLUSTERING_CHARTS_MAPPING.NAME):
         chart_index.create()
     else:
         info_index.delete_index()
+        info_index.create()
 
     if not ESIndex.CLIENT.indices.exists(index=CLUSTERING_PARAGRAPHS_MAPPING.NAME):
         paragraphs_index.create()
     else:
         info_index.delete_index()
+        info_index.create()
 
     info_index.bulk_insert_documents(clusters_info_list)
     chart_index.bulk_insert_documents(clusters_chart_list)
