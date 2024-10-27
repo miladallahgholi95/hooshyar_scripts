@@ -2,8 +2,8 @@ import os
 import shutil
 import jdatetime
 
-ZIP_FILE_PATH = "/mnt/Data1/data/files.zip"
-EXCEL_FILE_PATH = "/mnt/Data1/data/data.xlsx"
+ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\data/files.zip"
+EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\data/data.xlsx"
 SOURCE_ID = 1
 SOURCE_NAME = "مجموعه‌داده هوشیار"
 SOURCE_LANGUAGE = "FA"
@@ -47,7 +47,7 @@ os.mkdir(PATH_TO_EXTRACT_FILES)
 RUN_SENTIMENT_MODULE = False
 RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
-RUN_VECTOR_MODULE = True
+RUN_VECTOR_MODULE = False
 
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
