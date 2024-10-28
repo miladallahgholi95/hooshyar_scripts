@@ -443,7 +443,7 @@ class ClusterParagraphsIndex(ESIndex):
             yield new_document
 
 
-def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, clusters_paragraphs_list):
+def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, clusters_paragraphs_list, with_delete=False):
     info_index = ClusterInfoIndex(CLUSTERING_INFO_MAPPING.NAME,
                                   DOCUMENT_SETTING.SETTING,
                                   CLUSTERING_INFO_MAPPING.MAPPING)
@@ -458,19 +458,19 @@ def ingest_data_to_elastic(source_id, clusters_info_list, clusters_chart_list, c
 
     if not ESIndex.CLIENT.indices.exists(index=CLUSTERING_INFO_MAPPING.NAME):
         info_index.create()
-    else:
+    elif with_delete:
         info_index.delete_index()
         info_index.create()
 
     if not ESIndex.CLIENT.indices.exists(index=CLUSTERING_CHARTS_MAPPING.NAME):
         chart_index.create()
-    else:
+    elif with_delete:
         info_index.delete_index()
         info_index.create()
 
     if not ESIndex.CLIENT.indices.exists(index=CLUSTERING_PARAGRAPHS_MAPPING.NAME):
         paragraphs_index.create()
-    else:
+    elif with_delete:
         info_index.delete_index()
         info_index.create()
 
@@ -517,7 +517,7 @@ def apply():
                          KMEANS_CONFIG, SOURCE_ID)
     print("save to elastic ...")
     ingest_data_to_elastic(SOURCE_ID, kmeans_clusters_info_list, kmeans_clusters_chart_list,
-                           kmeans_clusters_paragraphs_list)
+                           kmeans_clusters_paragraphs_list, with_delete=True)
 
     # ----------------------------------- LDA ----------------------------------
 
