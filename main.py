@@ -6,18 +6,18 @@ from scripts import (source_to_elastic, ingest_data_to_elastic, ingest_type_to_e
 
 
 print("------------------------------------------\nExtract ZIP File\n------------------------------------------")
-zip_extractor.extractor(ZIP_FILE_PATH, PATH_TO_EXTRACT_FILES)
+# zip_extractor.extractor(ZIP_FILE_PATH, PATH_TO_EXTRACT_FILES)
 
 print("------------------------------------------\nSource To Elastic\n------------------------------------------")
-source_to_elastic.apply()
+# source_to_elastic.apply()
 
 print("------------------------------------------\nActors To Elastic\n------------------------------------------")
-ingest_actors_to_elastic.apply()
-#
+# ingest_actors_to_elastic.apply()
+
 print("------------------------------------------\nData To Elastic\n------------------------------------------")
-objects_ids = ingest_data_to_elastic.apply()
+# objects_ids = ingest_data_to_elastic.apply()
 #
-# objects_ids = None
+objects_ids = None
 #
 # print("------------------------------------------\nType To Elastic\n------------------------------------------")
 # ingest_type_to_elastic.apply(objects_ids)
@@ -26,16 +26,16 @@ objects_ids = ingest_data_to_elastic.apply()
 # ingest_level_to_elastic.apply(objects_ids)
 #
 # print("------------------------------------------\nSubject To Elastic\n------------------------------------------")
-# ingest_subject_keyword_to_elastic.apply(objects_ids)
+ingest_subject_keyword_to_elastic.apply(objects_ids)
 #
 # print("------------------------------------------\nAll Actors To Elastic\n------------------------------------------")
-# ingest_all_actors_to_elastic.apply(objects_ids)
+ingest_all_actors_to_elastic.apply(objects_ids)
 #
 # print("------------------------------------------\nAffected Graph To Elastic\n------------------------------------------")
-# ingest_affected_graph_to_elastic.apply(objects_ids)
+ingest_affected_graph_to_elastic.apply(objects_ids)
 #
 # print("------------------------------------------\nReferences To Elastic\n------------------------------------------")
-# ingest_references_to_elastic.apply()
+ingest_references_to_elastic.apply()
 
 print("------------------------------------------\nClustering To Elastic\n------------------------------------------")
 # ingest_clustering_to_elastic.apply()
