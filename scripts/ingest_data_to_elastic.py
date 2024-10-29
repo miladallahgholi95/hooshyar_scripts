@@ -309,12 +309,20 @@ def excel_to_dict(excel_path, field_names_list):
         temp_dict["last_status"] = "معتبر"
         temp_dict["extra_data"] = []
         for extra_key in field_names_list["extra_data"]:
-            temp_dict["extra_data"].append(
-                {
-                    'name': extra_key,
-                    'value': row[extra_key]
-                }
-            )
+            if extra_key in row:
+                temp_dict["extra_data"].append(
+                        {
+                            'name': extra_key,
+                            'value': row[extra_key]
+                        }
+                    )
+            else:
+                temp_dict["extra_data"].append(
+                        {
+                            'name': extra_key,
+                            'value': "نامشخص"
+                        }
+                    )
             if extra_key == "akharin_vaziat":
                 temp_dict["last_status"] = row[extra_key].replace("نامشخص", "معتبر")
 
