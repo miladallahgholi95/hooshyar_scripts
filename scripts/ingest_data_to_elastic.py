@@ -323,7 +323,7 @@ def excel_to_dict(excel_path, field_names_list):
                             'value': "نامشخص"
                         }
                     )
-            if extra_key == "akharin_vaziat":
+            if extra_key == "akharin_vaziat" and extra_key in row:
                 temp_dict["last_status"] = row[extra_key].replace("نامشخص", "معتبر")
 
     return excel_file_dict, affect_data_dict
