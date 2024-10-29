@@ -21,6 +21,8 @@ def text_abs_length(text):
     return len(text)
 
 def clean_title(text):
+    if text.startswith("۱)-"):
+        text = text.replace("۱)-", "", 1)
     special_chars = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/~`"
     text = text.strip()
     text = re.sub(f'^[{re.escape(special_chars)}]+', '', text)
