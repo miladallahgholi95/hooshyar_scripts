@@ -35,7 +35,11 @@ INPUT_EXCEL_MAPPING = {
                                     "dastgah_mojri",
                                     "ronevesht",
                                     "shomare_roozname_rasmi",
-                                    "tarikh_roozname_rasmi"
+                                    "tarikh_roozname_rasmi",
+                                    "ghazi",
+                                    "shobe",
+                                    "noe_rai",
+                                    # "payam",
                                 ]
                         }
 
@@ -48,7 +52,6 @@ RUN_SENTIMENT_MODULE = False
 RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
 RUN_VECTOR_MODULE = False
-
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
 
