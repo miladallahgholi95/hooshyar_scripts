@@ -7,6 +7,7 @@ import re
 CURRENT_VECTOR_ID = 1
 
 def extract_document_list(source_index, source_id, last_id="0"):
+    ignore_types_list = ["سایر", "لغو", "رأی"]
     res_query = {
         "bool": {
             "must": [
@@ -18,9 +19,10 @@ def extract_document_list(source_index, source_id, last_id="0"):
             ],
             "must_not": [
                 {
-                    "term": {
-                        "type": "سایر"
-                    }
+                    "terms":
+                        {
+                            "type": ignore_types_list
+                        }
                 }
             ]
 
