@@ -2,8 +2,8 @@ import os
 import shutil
 import jdatetime
 
-ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\ray\files.zip"
-EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\ray\data.xlsx"
+ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\files_2.zip"
+EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\data.xlsx"
 SOURCE_ID = 1
 SOURCE_NAME = "مجموعه‌داده هوشیار"
 SOURCE_LANGUAGE = "FA"
@@ -36,9 +36,9 @@ INPUT_EXCEL_MAPPING = {
                                     "ronevesht",
                                     "shomare_roozname_rasmi",
                                     "tarikh_roozname_rasmi",
-                                    "ghazi",
-                                    "shobe",
-                                    "noe_rai",
+                                    # "ghazi",
+                                    # "shobe",
+                                    # "noe_rai",
                                     # "payam",
                                 ]
                         }
