@@ -51,8 +51,8 @@ os.mkdir(PATH_TO_EXTRACT_FILES)
 RUN_SENTIMENT_MODULE = False
 RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
-RUN_VECTOR_MODULE = False
+RUN_VECTOR_MODULE = True
 
 UPLOAD_DATE = jdatetime.date.today().strftime('%Y-%m-%d')
 
-VECTOR_MODEL_PATH = "/mnt/Data1/law+LM_Pbert"
+VECTOR_MODEL_PATH = "HooshvareLab/bert-base-parsbert-uncased" #"/mnt/Data1/law+LM_Pbert"
