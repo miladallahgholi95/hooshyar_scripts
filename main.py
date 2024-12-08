@@ -32,11 +32,11 @@ from scripts import (source_to_elastic, ingest_data_to_elastic, ingest_type_to_e
 # print("------------------------------------------\nAffected Graph To Elastic\n------------------------------------------")
 # ingest_affected_graph_to_elastic.apply(objects_ids)
 
-print("------------------------------------------\nReferences To Elastic\n------------------------------------------")
-ingest_references_to_elastic.apply()
+# print("------------------------------------------\nReferences To Elastic\n------------------------------------------")
+# ingest_references_to_elastic.apply()
+#
+# print("------------------------------------------\nClustering To Elastic\n------------------------------------------")
+# ingest_clustering_to_elastic.apply()
 
-print("------------------------------------------\nClustering To Elastic\n------------------------------------------")
-ingest_clustering_to_elastic.apply()
-
-# print("------------------------------------------\nVectors To Elastic\n------------------------------------------")
-# ingest_vectors_to_elastic.apply(None)
+print("------------------------------------------\nVectors To Elastic\n------------------------------------------")
+ingest_vectors_to_elastic.apply(None)
