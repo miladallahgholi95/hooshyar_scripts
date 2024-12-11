@@ -89,7 +89,7 @@ def extract_document_ingest_data(source_id, patch_obj, date_dictionary, pid_2_do
         }
 
     result = []
-    i = 1
+    i = 0
     last_id = "0"
     while True:
         index_name = DOCUMENT_MAPPING.NAME
@@ -106,6 +106,7 @@ def extract_document_ingest_data(source_id, patch_obj, date_dictionary, pid_2_do
         if hits_count == 0:
             break
 
+        ctx = 1
         for hit in hits_data:
             _id = hit["_id"]
             _source = hit['_source']
@@ -113,8 +114,9 @@ def extract_document_ingest_data(source_id, patch_obj, date_dictionary, pid_2_do
             _source["affect_detail"] = get_doc_affect_data(_id, pid_2_doc_id, date_dictionary)
             last_id = _id
             result.append(_source)
+            print(i*SEARCH_WINDOW_SIZE + ctx, "docs data extracted ...")
+            ctx += 1
 
-        print(i*SEARCH_WINDOW_SIZE, "docs data extracted ...")
         i += 1
 
     return result
