@@ -119,7 +119,7 @@ def apply(patch_obj=None):
     excel_dataframe = pd.read_excel(EXCEL_FILE_PATH)
     pid_2_doc_id = {}
     for index, row in excel_dataframe.iterrows():
-        pid = int(row["pid"])
+        pid = int(row["pid"].replace("?IDS=", ""))
         hashed_file_name = "tanghih_" + row["hashed_file_name"]
         pid_2_doc_id[pid] = hashed_file_name
 
