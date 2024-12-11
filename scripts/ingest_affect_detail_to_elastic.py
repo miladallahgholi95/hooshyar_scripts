@@ -116,7 +116,7 @@ def extract_document_ingest_data(source_id, patch_obj, date_dictionary, pid_2_do
     return result
 
 def apply(patch_obj=None):
-    excel_dataframe = EXCEL_FILE_PATH
+    excel_dataframe = pd.read_excel(EXCEL_FILE_PATH)
     pid_2_doc_id = {}
     for index, row in excel_dataframe.iterrows():
         pid = int(row["pid"])
