@@ -10,7 +10,7 @@ import json
 def get_doc_affect_data(doc_id, pid_2_doc_id, date_dict):
     url = f'http://127.0.0.1:50081/docs-status/{doc_id}/'  #
     response = requests.get(url)
-    affect_data = json.loads(response.content)
+    affect_data = json.loads(response.content) or []
     doc_af_data = []
     for af_data in affect_data:
         if "extracted_status_detail" in af_data and af_data["extracted_status_detail"] != {}:
