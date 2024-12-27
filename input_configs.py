@@ -2,8 +2,8 @@ import os
 import shutil
 import jdatetime
 
-ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\files_2.zip"
-EXCEL_FILE_PATH = r"/mnt/Data1/data/data.xlsx"
+ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\files.zip"
+EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\data.xlsx"
 SOURCE_ID = 1
 SOURCE_NAME = "مجموعه‌داده هوشیار"
 SOURCE_LANGUAGE = "FA"
