@@ -53,6 +53,6 @@ RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
 RUN_VECTOR_MODULE = False
 
-UPLOAD_DATE = "1403-10-08" #jdatetime.date.today().strftime('%Y-%m-%d')
+UPLOAD_DATE = "1403-11-26" #jdatetime.date.today().strftime('%Y-%m-%d')
 
 VECTOR_MODEL_PATH = "HooshvareLab/bert-base-parsbert-uncased" #"/mnt/Data1/law+LM_Pbert"
