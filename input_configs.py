@@ -19,8 +19,11 @@ def get_nearest_crawl_day():
 BOT_TOKEN = "1740739661:5UGBO8BjgeZEOhBBp5iBNoljCry2GEamJmF1oSxd"
 CHAT_ID = "6035186609"
 BaleURL = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendMessage"
-ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\files.zip"
-EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\data.xlsx"
+parent_folder = r"/mnt/Data1/abdal_crawlers/crawler-qavanin-ir-service/files"
+folders = [f for f in os.listdir(parent_folder) if os.path.isdir(os.path.join(parent_folder, f))]
+last_folder = sorted(folders)[-1]
+ZIP_FILE_PATH = os.path.join(parent_folder, last_folder, "files.zip")
+EXCEL_FILE_PATH = os.path.join(parent_folder, last_folder, "data.xlsx")
 SOURCE_ID = 1
 SOURCE_NAME = "مجموعه‌داده هوشیار"
 SOURCE_LANGUAGE = "FA"
