@@ -2,6 +2,23 @@ import os
 import shutil
 import jdatetime
 
+def get_nearest_crawl_day():
+    today = jdatetime.date.today()
+    weekday = today.weekday()
+
+    days_to_sunday = (weekday - 2) % 7 #Sunday
+    days_to_thursday = (weekday - 5) % 7 #Thursday
+
+    if days_to_sunday <= days_to_thursday:
+        nearest_day = today - jdatetime.timedelta(days=days_to_sunday)
+    else:
+        nearest_day = today - jdatetime.timedelta(days=days_to_thursday) + jdatetime.timedelta(days=1)
+
+    return nearest_day.strftime("%Y-%m-%d")
+
+BOT_TOKEN = "1740739661:5UGBO8BjgeZEOhBBp5iBNoljCry2GEamJmF1oSxd"
+CHAT_ID = "6035186609"
+BaleURL = f"https://tapi.bale.ai/bot{BOT_TOKEN}/sendMessage"
 ZIP_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\files.zip"
 EXCEL_FILE_PATH = r"C:\Users\ASUS\Desktop\upload\data.xlsx"
 SOURCE_ID = 1
@@ -53,6 +70,7 @@ RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
 RUN_VECTOR_MODULE = False
 
-UPLOAD_DATE = "1403-11-26" #jdatetime.date.today().strftime('%Y-%m-%d')
+UPLOAD_DATE = get_nearest_crawl_day() #"1403-12-20" #jdatetime.date.today().strftime('%Y-%m-%d')
 
 VECTOR_MODEL_PATH = "HooshvareLab/bert-base-parsbert-uncased" #"/mnt/Data1/law+LM_Pbert"
+
