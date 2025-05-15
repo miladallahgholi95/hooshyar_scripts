@@ -6,9 +6,9 @@ def get_nearest_crawl_day():
     today = jdatetime.date.today()
     weekday = today.weekday()
 
-    days_to_saturday = (weekday - 0) % 7  # Saturday
-    days_to_monday = (weekday - 2) % 7  # Monday
-    days_to_thursday = (weekday - 5) % 7  # Thursday
+    days_to_saturday = (weekday - 0) % 7 or 7 # Saturday
+    days_to_monday = (weekday - 2) % 7 or 7 # Monday
+    days_to_thursday = (weekday - 5) % 7 or 7 # Thursday
 
     if days_to_saturday <= days_to_monday and days_to_saturday <= days_to_thursday:
         nearest_day = today - jdatetime.timedelta(days=days_to_saturday)
