@@ -216,7 +216,7 @@ def apply(patch_obj=None):
 
 
     # Create Embedding and Save to Elastic
-    batch_size = 20000
+    batch_size = 10000
     batch_count = int(len(corpus) / batch_size) + 1
 
     for batch_number in range(batch_count):

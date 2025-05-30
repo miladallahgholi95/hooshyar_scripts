@@ -73,7 +73,7 @@ MAPPING = {
         },
         "vector": {
           "type": "dense_vector",
-          "dims": 768
+          "dims": 1024
         }
       }
     }

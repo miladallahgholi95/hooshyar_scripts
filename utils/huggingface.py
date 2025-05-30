@@ -43,3 +43,4 @@ if RUN_VECTOR_MODULE:
     embeddingSentenceModel = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 else:
     embeddingSentenceModel = None
+
