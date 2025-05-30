@@ -27,6 +27,7 @@ else:
     classificationSentenceTokenizer, classificationSentenceModel, classificationSentencePipeline = None, None, None
 
 if RUN_VECTOR_MODULE:
+    print("Load Vector Model")
     word_embedding_model = models.Transformer(
         "heydariAI/persian-embeddings",
         tokenizer_name_or_path="heydariAI/persian-embeddings"
