@@ -32,10 +32,10 @@ class ESIndex:
         start_t = time.time()
         generate_docs_method = self.generate_docs
         if do_parallel:
-            deque(helpers.parallel_bulk(self.CLIENT, generate_docs_method(documents), thread_count=8, chunk_size=500,
+            deque(helpers.parallel_bulk(self.CLIENT, generate_docs_method(documents), thread_count=8, chunk_size=300,
                                         request_timeout=3000), maxlen=0)
         else:
-            helpers.bulk(self.CLIENT, generate_docs_method(documents), chunk_size=500, request_timeout=120)
+            helpers.bulk(self.CLIENT, generate_docs_method(documents), chunk_size=300, request_timeout=3000)
         self.CLIENT.indices.flush(index=self.name)
         self.CLIENT.indices.refresh(index=self.name)
         # Check the results:
