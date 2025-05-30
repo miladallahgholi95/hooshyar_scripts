@@ -214,7 +214,6 @@ def apply(patch_obj=None):
     paragraph_vector_new_index.delete_index()
     paragraph_vector_new_index.create()
 
-
     # Create Embedding and Save to Elastic
     batch_size = 10000
     batch_count = int(len(corpus) / batch_size) + 1
