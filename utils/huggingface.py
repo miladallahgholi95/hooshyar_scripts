@@ -27,14 +27,18 @@ else:
     classificationSentenceTokenizer, classificationSentenceModel, classificationSentencePipeline = None, None, None
 
 if RUN_VECTOR_MODULE:
-    print("Load Vector Model")
-    model_name_or_path = wikitriplet_model = 'm3hrdadfi/bert-fa-base-uncased-wikitriplet-mean-tokens'
-    word_embedding_model = models.Transformer(model_name_or_path)
+    word_embedding_model = models.Transformer(
+        "heydariAI/persian-embeddings",
+        tokenizer_name_or_path="heydariAI/persian-embeddings"
+    )
+
     pooling_model = models.Pooling(
         word_embedding_model.get_word_embedding_dimension(),
         pooling_mode_mean_tokens=True,
         pooling_mode_cls_token=False,
-        pooling_mode_max_tokens=False)
-    wikitriplet_model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
+        pooling_mode_max_tokens=False
+    )
+
+    embeddingSentenceModel = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 else:
-    wikitriplet_model = None
+    embeddingSentenceModel = None
