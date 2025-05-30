@@ -246,7 +246,7 @@ def apply(patch_obj=None):
         print(f"*****************************{batch_number} / {batch_count}*************************************")
         corpus_embeddings1 = fine_tune_model.encode(deepcopy(split_corpus), show_progress_bar=True)
         for i in range(corpus_embeddings1.__len__()):
-            split_corpus_meta_data[i]["wikitriplet_vector"] = list(corpus_embeddings1[i])
+            split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
         paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
 
 apply(None)
