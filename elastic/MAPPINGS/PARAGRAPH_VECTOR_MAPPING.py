@@ -71,7 +71,7 @@ MAPPING = {
         "source_name": {
           "type": "keyword"
         },
-        "wikitriplet_vector": {
+        "vector": {
           "type": "dense_vector",
           "dims": 768
         }

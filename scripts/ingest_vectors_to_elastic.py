@@ -28,7 +28,7 @@ class ParagraphsVectorIndex(ESIndex):
                 "document_type": record["document_type"],
                 "document_level": record["document_level"],
                 "paragraph_number": record["paragraph_number"],
-                "wikitriplet_vector": record["vector_hooshyar"],
+                "vector": record["vector_hooshyar"],
                 "content": record["content"],
             }
 
@@ -192,15 +192,19 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
 
 # load model for custom
 def load_st_model(model_name_or_path):
-    word_embedding_model = models.Transformer(model_name_or_path,
-                                              tokenizer_name_or_path="HooshvareLab/bert-fa-base-uncased")
+    word_embedding_model = models.Transformer(
+        model_name_or_path,
+        tokenizer_name_or_path="heydariAI/persian-embeddings"
+    )
 
     pooling_model = models.Pooling(
         word_embedding_model.get_word_embedding_dimension(),
         pooling_mode_mean_tokens=True,
         pooling_mode_cls_token=False,
-        pooling_mode_max_tokens=False)
+        pooling_mode_max_tokens=False
+    )
 
+    # ایجاد مدل نهایی SentenceTransformer
     model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
     return model
 
@@ -232,7 +236,7 @@ def apply(patch_obj=None):
     if not VECTOR_MODEL_PATH:
         return
 
-    fine_tune_model = load_st_model(VECTOR_MODEL_PATH)
+    fine_tune_model = load_st_model("heydariAI/persian-embeddings")
 
     # Create Embedding and Save to Elastic
     batch_size = 20000
