@@ -6,6 +6,7 @@ from input_configs import *
 from elastic.MAPPINGS import PARAGRAPH_VECTOR_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import PARAGRAPH_SETTING
 from sentence_transformers import models, SentenceTransformer
+from utils import huggingface
 
 normalizer = hazm.Normalizer()
 
@@ -190,24 +191,6 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
 
     return corpus, corpus_meta_data
 
-# load model for custom
-def load_st_model(model_name_or_path):
-    word_embedding_model = models.Transformer(
-        model_name_or_path,
-        tokenizer_name_or_path="heydariAI/persian-embeddings"
-    )
-
-    pooling_model = models.Pooling(
-        word_embedding_model.get_word_embedding_dimension(),
-        pooling_mode_mean_tokens=True,
-        pooling_mode_cls_token=False,
-        pooling_mode_max_tokens=False
-    )
-
-    # ایجاد مدل نهایی SentenceTransformer
-    model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
-    return model
-
 
 def apply(patch_obj=None):
     check_exist_id = False
@@ -236,8 +219,6 @@ def apply(patch_obj=None):
     if not VECTOR_MODEL_PATH:
         return
 
-    fine_tune_model = load_st_model("heydariAI/persian-embeddings")
-
     # Create Embedding and Save to Elastic
     batch_size = 20000
     batch_count = int(len(corpus) / batch_size) + 1
@@ -248,7 +229,7 @@ def apply(patch_obj=None):
         split_corpus = corpus[start_idx: end_idx]
         split_corpus_meta_data = corpus_meta_data[start_idx: end_idx]
         print(f"*****************************{batch_number} / {batch_count}*************************************")
-        corpus_embeddings1 = fine_tune_model.encode(deepcopy(split_corpus), show_progress_bar=True)
+        corpus_embeddings1 = huggingface.embeddingSentenceModel.encode(deepcopy(split_corpus), show_progress_bar=True)
         for i in range(corpus_embeddings1.__len__()):
             split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
         paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
