@@ -139,6 +139,7 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
     i = 0
     corpus = []
     corpus_meta_data = []
+    last_id = "0"
     while True:
         response = ESIndex.CLIENT.search(
             index=PARAGRAPH_MAPPING.NAME,
