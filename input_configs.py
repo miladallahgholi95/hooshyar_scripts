@@ -73,9 +73,9 @@ if os.path.exists(PATH_TO_EXTRACT_FILES) and os.path.isdir(PATH_TO_EXTRACT_FILES
     shutil.rmtree(PATH_TO_EXTRACT_FILES)
 os.mkdir(PATH_TO_EXTRACT_FILES)
 
-RUN_SENTIMENT_MODULE = False
-RUN_SUBJECT_MODULE = False
-RUN_ENTITY_MODULE = False
+RUN_SENTIMENT_MODULE = True
+RUN_SUBJECT_MODULE = True
+RUN_ENTITY_MODULE = True
 RUN_VECTOR_MODULE = True
 
 UPLOAD_DATE = get_nearest_crawl_day() #"1403-12-20" #jdatetime.date.today().strftime('%Y-%m-%d')
