@@ -80,5 +80,3 @@ RUN_VECTOR_MODULE = True
 
 UPLOAD_DATE = get_nearest_crawl_day() #"1403-12-20" #jdatetime.date.today().strftime('%Y-%m-%d')
 
-VECTOR_MODEL_PATH = "heydariAI/persian-embeddings" #"/mnt/Data1/law+LM_Pbert"
-

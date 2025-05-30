@@ -214,10 +214,6 @@ def apply(patch_obj=None):
     paragraph_vector_new_index.delete_index()
     paragraph_vector_new_index.create()
 
-    # Load Models
-
-    if not VECTOR_MODEL_PATH:
-        return
 
     # Create Embedding and Save to Elastic
     batch_size = 20000
