@@ -159,11 +159,11 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
             break
 
         last_id = hits_data[-1]["_id"]
-
+        PARA_LENGTH_THRESHOLD = 50
         for row in hits_data:
             paragraph_id = row["_id"]
             paragraph_content = row["_source"]["content"]
-            if len(paragraph_content) >= 20:
+            if len(paragraph_content.replace(" ", "")) >= PARA_LENGTH_THRESHOLD:
                 corpus.append(paragraph_content)
                 doc_id = row["_source"]["document_id"]
                 doc_name = row["_source"]["document_name"]
