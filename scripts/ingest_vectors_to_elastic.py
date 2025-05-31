@@ -5,7 +5,6 @@ from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
 from input_configs import *
 from elastic.MAPPINGS import PARAGRAPH_VECTOR_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import PARAGRAPH_SETTING
-from sentence_transformers import models, SentenceTransformer
 # from utils import huggingface
 import requests
 
