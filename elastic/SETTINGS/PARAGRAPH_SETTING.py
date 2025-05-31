@@ -28,7 +28,7 @@ SETTING = {
                 },
             },
         },
-        "number_of_shards": 2,
+        "number_of_shards": 5,
         "number_of_replicas": 0,
         "refresh_interval": "-1",
         "index.max_result_window": "5000",
