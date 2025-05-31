@@ -76,7 +76,7 @@ os.mkdir(PATH_TO_EXTRACT_FILES)
 RUN_SENTIMENT_MODULE = False
 RUN_SUBJECT_MODULE = False
 RUN_ENTITY_MODULE = False
-RUN_VECTOR_MODULE = False
+RUN_VECTOR_MODULE = True
 
 UPLOAD_DATE = get_nearest_crawl_day() #"1403-12-20" #jdatetime.date.today().strftime('%Y-%m-%d')
 

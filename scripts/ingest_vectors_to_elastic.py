@@ -5,12 +5,14 @@ from elastic.connection import ESIndex, SEARCH_WINDOW_SIZE
 from input_configs import *
 from elastic.MAPPINGS import PARAGRAPH_VECTOR_MAPPING, PARAGRAPH_MAPPING
 from elastic.SETTINGS import PARAGRAPH_SETTING
-# from utils import huggingface
+from sentence_transformers import models, SentenceTransformer
+from utils import huggingface
 import requests
 
 normalizer = hazm.Normalizer()
 
 CURRENT_VECTOR_ID = 1
+
 
 class ParagraphsVectorIndex(ESIndex):
     def __init__(self, name, settings, mappings):
@@ -190,14 +192,6 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
 
     return corpus, corpus_meta_data
 
-def embedding_vector(input_text):
-    url = "http://0.0.0.0:7083/hugging_face/"
-    data = {"input_text": input_text}
-    response = requests.post(url + "embedding_vector/", data=data)
-    if response.status_code != 200:
-        raise Exception("HuggingFace API Error")
-    return response.json()
-
 
 def apply(patch_obj=None):
     check_exist_id = False
@@ -222,8 +216,9 @@ def apply(patch_obj=None):
     paragraph_vector_new_index.create()
 
     # Create Embedding and Save to Elastic
-    batch_size = 5000
+    batch_size = 10000
     batch_count = int(len(corpus) / batch_size) + 1
+
 
     for batch_number in range(batch_count):
         start_idx = batch_number * batch_size
@@ -231,8 +226,7 @@ def apply(patch_obj=None):
         split_corpus = corpus[start_idx: end_idx]
         split_corpus_meta_data = corpus_meta_data[start_idx: end_idx]
         print(f"*****************************{batch_number} / {batch_count}*************************************")
-        corpus_embeddings1 = embedding_vector(deepcopy(split_corpus))
-        # corpus_embeddings1 = huggingface.embeddingSentenceModel.encode(deepcopy(split_corpus), show_progress_bar=True)
+        corpus_embeddings1 = huggingface.embeddingSentenceModel.encode(deepcopy(split_corpus), show_progress_bar=True)
         for i in range(corpus_embeddings1.__len__()):
             split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
         paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
