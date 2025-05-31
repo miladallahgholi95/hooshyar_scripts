@@ -12,7 +12,6 @@ normalizer = hazm.Normalizer()
 
 CURRENT_VECTOR_ID = 1
 
-
 class ParagraphsVectorIndex(ESIndex):
     def __init__(self, name, settings, mappings):
         super().__init__(name, settings, mappings)
@@ -233,6 +232,7 @@ def apply(patch_obj=None):
         split_corpus_meta_data = corpus_meta_data[start_idx: end_idx]
         print(f"*****************************{batch_number} / {batch_count}*************************************")
         corpus_embeddings1 = embedding_vector(deepcopy(split_corpus))
+        # corpus_embeddings1 = huggingface.embeddingSentenceModel.encode(deepcopy(split_corpus), show_progress_bar=True)
         for i in range(corpus_embeddings1.__len__()):
             split_corpus_meta_data[i]["vector_hooshyar"] = list(corpus_embeddings1[i])
         paragraph_vector_new_index.bulk_insert_documents(split_corpus_meta_data)
