@@ -212,7 +212,7 @@ def apply(patch_obj=None):
     paragraph_vector_new_index = ParagraphsVectorIndex(paragraph_vector_index_name,
                                                        paragraph_vector_setting,
                                                        paragraph_vector_mapping)
-    paragraph_vector_new_index.delete_index()
+    # paragraph_vector_new_index.delete_index()
     paragraph_vector_new_index.create()
 
     # Create Embedding and Save to Elastic
