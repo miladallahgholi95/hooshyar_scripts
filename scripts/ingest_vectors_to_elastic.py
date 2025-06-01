@@ -100,6 +100,7 @@ def get_exist_id(source_id):
 
         for row in hits_data:
             ids_list.append(row["_id"])
+            last_id = row["_id"]
 
     return ids_list
 
