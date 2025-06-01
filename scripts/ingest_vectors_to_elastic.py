@@ -128,14 +128,6 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
                             }
                         }
                     ],
-                "must_not":
-                    [
-                        {
-                            "term": {
-                                "_id": _id
-                            }
-                        } for _id in exist_ids_list
-                    ]
             }
     }
 
@@ -164,32 +156,33 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
         PARA_LENGTH_THRESHOLD = 50
         for row in hits_data:
             paragraph_id = row["_id"]
-            paragraph_content = row["_source"]["content"]
-            if len(paragraph_content.replace(" ", "")) >= PARA_LENGTH_THRESHOLD:
-                corpus.append(paragraph_content)
-                doc_id = row["_source"]["document_id"]
-                doc_name = row["_source"]["document_name"]
-                doc_datetime = row["_source"]["document_datetime"]
-                source_id = row["_source"]["document_source_id"]
-                paragraph_number = row["_source"]["paragraph_number"]
-                source_name = row["_source"]["document_source_name"]
-                subject = row["_source"]["document_keyword_main_subject"]
-                doc_type = row["_source"]["document_type"]
-                doc_level = row["_source"]["document_level"]
-                res = {
-                    "_id": paragraph_id,
-                    "source_id": source_id,
-                    "source_name": source_name,
-                    "document_id": doc_id,
-                    "document_name": doc_name,
-                    "document_datetime": doc_datetime,
-                    "document_subject": subject,
-                    "document_type": doc_type,
-                    "document_level": doc_level,
-                    "paragraph_number": paragraph_number,
-                    "content": paragraph_content
-                }
-                corpus_meta_data.append(res)
+            if paragraph_id not in exist_ids_list:
+                paragraph_content = row["_source"]["content"]
+                if len(paragraph_content.replace(" ", "")) >= PARA_LENGTH_THRESHOLD:
+                    corpus.append(paragraph_content)
+                    doc_id = row["_source"]["document_id"]
+                    doc_name = row["_source"]["document_name"]
+                    doc_datetime = row["_source"]["document_datetime"]
+                    source_id = row["_source"]["document_source_id"]
+                    paragraph_number = row["_source"]["paragraph_number"]
+                    source_name = row["_source"]["document_source_name"]
+                    subject = row["_source"]["document_keyword_main_subject"]
+                    doc_type = row["_source"]["document_type"]
+                    doc_level = row["_source"]["document_level"]
+                    res = {
+                        "_id": paragraph_id,
+                        "source_id": source_id,
+                        "source_name": source_name,
+                        "document_id": doc_id,
+                        "document_name": doc_name,
+                        "document_datetime": doc_datetime,
+                        "document_subject": subject,
+                        "document_type": doc_type,
+                        "document_level": doc_level,
+                        "paragraph_number": paragraph_number,
+                        "content": paragraph_content
+                    }
+                    corpus_meta_data.append(res)
 
     return corpus, corpus_meta_data
 
