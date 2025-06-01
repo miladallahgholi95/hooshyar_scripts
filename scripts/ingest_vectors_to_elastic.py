@@ -131,10 +131,10 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
                 "must_not":
                     [
                         {
-                            "terms": {
-                                "_id": exist_ids_list
+                            "term": {
+                                "_id": _id
                             }
-                        }
+                        } for _id in exist_ids_list
                     ]
             }
     }
