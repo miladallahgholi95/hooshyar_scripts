@@ -50,7 +50,7 @@ try:
     # ingest_clustering_to_elastic.apply()
 
     print("------------------------------------------\nVectors To Elastic\n------------------------------------------")
-    ingest_vectors_to_elastic.apply(objects_ids)
+    ingest_vectors_to_elastic.apply(None)
 
 except Exception as e:
     error_message = f"خطا در اجرای اسکریپت:\n{traceback.format_exc()}"
