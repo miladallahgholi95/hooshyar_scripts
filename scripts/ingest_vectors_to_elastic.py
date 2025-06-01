@@ -194,7 +194,7 @@ def get_data_list(source_id, exist_ids_list, patch_obj):
 
 
 def apply(patch_obj=None):
-    check_exist_id = False
+    check_exist_id = True
 
     # Check Exist
     if check_exist_id:
