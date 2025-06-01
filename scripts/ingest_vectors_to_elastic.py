@@ -107,7 +107,7 @@ def get_exist_id(source_id):
 
 def get_data_list(source_id, exist_ids_list, patch_obj):
     chunk_size = 50000
-    exist_ids_list_chunks = [exist_ids_list[x:x+chunk_size] for x in exist_ids_list(0, len(exist_ids_list), 100)]
+    exist_ids_list_chunks = [exist_ids_list[x:x+chunk_size] for x in range(0, len(exist_ids_list), chunk_size)]
 
     res_query = {
         "bool":
