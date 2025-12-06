@@ -5,12 +5,9 @@ from elastic.SETTINGS import PARAGRAPH_SETTING
 from elastic.MAPPINGS import PARAGRAPH_ACTOR_MAPPING, ACTORS_MAPPING, REGULATORS_MAPPING, PARAGRAPH_MAPPING
 import enum
 
-
 actor_duplicate = []
 
 actor_duplicate_count = 0
-
-DOTIC_SOURCE_ID = None
 
 class ConcatenateTypes(enum.Enum):
    FORM_KW = 'FORM_KW'
@@ -210,13 +207,7 @@ def add_field_not_exist(field,input_dict,default_value):
 
 def get_paras_with_search_after(index_name, last_doc_id="0"):
     res_query = {
-        "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
-                }
-            }],
-        }
+        "match_all": {}
     }
     response = ES_CLIENT.search(
         index=index_name,
@@ -410,22 +401,19 @@ def search_supervisors(forms, role_keywords):
     
     res_query = {
         "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
+            "filter": [
+                {
+                    "nested": {
+                        "path": "actors",
+                        "query": {
+                            "term": {
+                                "actors.role": "متولی اجرا"
+                            }
+                        },
+                        "inner_hits": {}
+                    }
                 }
-            },
-            {
-                "nested":{
-                    "path":"actors",
-                    "query":{
-                        "term":{
-                            "actors.role":"متولی اجرا"
-                        }
-                    },
-                    "inner_hits": {}
-                }
-            }],
+            ],
             "must":[
                 {
                     "match_phrase":{
@@ -656,10 +644,7 @@ ALL_PATTERNS = {
 def apply():
     global actor_duplicate_count
     global actor_duplicate
-    global DOTIC_SOURCE_ID
 
-    DOTIC_SOURCE_ID = "1"
-        
     # change max_regex_length to 10000
     change_max_regex_length(10000)
     

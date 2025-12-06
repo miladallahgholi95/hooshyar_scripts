@@ -1,4 +1,4 @@
-NAME = "hokmrani_dade_paragraph_index"
+NAME = "hooshyar_paragraph_index"
 MAPPING = {
       "properties": {
         "content": {

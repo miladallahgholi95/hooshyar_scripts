@@ -1,4 +1,4 @@
-NAME = "hokmrani_dade_actors_index"
+NAME = "hooshyar_actors_index"
 MAPPING = {
       "properties": {
         "area": {

@@ -1,4 +1,4 @@
-NAME = "hokmrani_dade_paragraph_actor_index"
+NAME = "hooshyar_paragraph_actor_index"
 MAPPING = {
       "properties": {
         "actors": {
