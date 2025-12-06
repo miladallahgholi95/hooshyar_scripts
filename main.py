@@ -50,7 +50,7 @@ from scripts import  ingest_paragraph_actors_to_elastic, ingest_actors_time_seri
     # # print("------------------------------------------\nVectors To Elastic\n------------------------------------------")
     # # ingest_vectors_to_elastic.apply(objects_ids)
 
-# ingest_paragraph_actors_to_elastic.apply()
+ingest_paragraph_actors_to_elastic.apply()
 ingest_actors_time_series_to_elastic.apply()
 
 # except Exception as e:
