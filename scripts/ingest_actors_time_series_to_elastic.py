@@ -8,7 +8,7 @@ import pandas as pd
 datetime_field_name = "document_datetime"
 
 def apply():
-    create_actor_time_series_data()
+    # create_actor_time_series_data()
     create_actor_correlation_data()
 
 
@@ -190,7 +190,7 @@ def create_actor_correlation_data():
 
     actor_index = IndexObjectWithId(ACTORS_MAPPING.NAME,
                              PARAGRAPH_SETTING.SETTING,
-                             ACTORS_MAPPING.NAME)
+                             ACTORS_MAPPING.MAPPING)
     
     # delete index
     actor_index.delete_index()
