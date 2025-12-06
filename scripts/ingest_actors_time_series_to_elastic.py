@@ -1,7 +1,7 @@
 import math
 from elastic.connection import SEARCH_WINDOW_SIZE, ES_CLIENT, IndexObjectWithId, BUCKET_SIZE
 from elastic.SETTINGS import PARAGRAPH_SETTING
-from elastic.MAPPINGS import PARAGRAPH_ACTOR_MAPPING, ACTORS_MAPPING, REGULATORS_MAPPING, PARAGRAPH_MAPPING
+from elastic.MAPPINGS import PARAGRAPH_ACTOR_MAPPING, ACTORS_MAPPING
 
 import pandas as pd
 
