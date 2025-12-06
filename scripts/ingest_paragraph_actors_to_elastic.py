@@ -691,7 +691,7 @@ def apply():
     paragraphs_dict = {}
     
     iteration_cnt = 0
-    for actor in actors_list:
+    for actor in actors_list[:2]:
         print("1", iteration_cnt/len(actors_list))
         iteration_cnt += 1
 
@@ -734,8 +734,8 @@ def apply():
         paragraph_obj['_source'] = add_field_not_exist('actors',paragraph_obj['_source'],[])
         paragraph_obj['_source'] = add_field_not_exist('regulators',paragraph_obj['_source'],[])
         paragraph_obj['_source'] = add_field_not_exist('supervisors',paragraph_obj['_source'],[])
-
-        result_ingest_list.append(paragraph_obj)
+        paragraph_obj['_source']["_id"] = paragraph_obj["_id"]
+        result_ingest_list.append(paragraph_obj["_source"])
         
     
     # ingest result_ingest_list to paragraph_actor_index
@@ -782,7 +782,7 @@ def apply_supervisors():
     
     # find supervisors in paragraphs
     iteration_cnt = 0
-    for actor in actors_list:
+    for actor in actors_list[:2]:
         print("2", iteration_cnt/len(actors_list))
         iteration_cnt += 1
 
@@ -808,8 +808,9 @@ def apply_supervisors():
     result_ingest_list = []
     for paragraph_id, paragraph_obj in paragraphs_dict.items():
         paragraph_obj['_source'] = add_field_not_exist('supervisors',paragraph_obj['_source'],[])
-        result_ingest_list.append(paragraph_obj)
-        
+        paragraph_obj['_source']["_id"] = paragraph_obj["_id"]
+        result_ingest_list.append(paragraph_obj["_source"])
+
     # ingest result_ingest_list to paragraph_actor_index
     new_index = IndexObjectWithId(PARAGRAPH_ACTOR_MAPPING.NAME,
                                     PARAGRAPH_SETTING.SETTING,
