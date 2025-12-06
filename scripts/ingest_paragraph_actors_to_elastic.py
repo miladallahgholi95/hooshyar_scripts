@@ -691,7 +691,7 @@ def apply():
     paragraphs_dict = {}
     
     iteration_cnt = 0
-    for actor in actors_list[:2]:
+    for actor in actors_list:
         print("1", iteration_cnt/len(actors_list))
         iteration_cnt += 1
 
@@ -782,7 +782,7 @@ def apply_supervisors():
     
     # find supervisors in paragraphs
     iteration_cnt = 0
-    for actor in actors_list[:2]:
+    for actor in actors_list:
         print("2", iteration_cnt/len(actors_list))
         iteration_cnt += 1
 
