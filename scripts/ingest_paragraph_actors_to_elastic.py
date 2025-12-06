@@ -156,7 +156,6 @@ def add_supervisor(paragraphs_dict, response):
 
 
 def add_regulators(paragraphs_dict, regulator, tool_name, response):
-    ctr = 0
     if not response:
         return
     for para in response['hits']['hits']:
@@ -176,11 +175,9 @@ def add_regulators(paragraphs_dict, regulator, tool_name, response):
         }
         
         # check if actor already exists in paragraph
-        if detected_regulator not in paragraphs_dict[paragraph_id]['_source']['regulators']: 
-            ctr += 1 
+        if detected_regulator not in paragraphs_dict[paragraph_id]['_source']['regulators']:
             paragraphs_dict[paragraph_id]['_source']['regulators'].append(detected_regulator)       
-  
-    print(f"ctr = {ctr}")
+
 
                 
 def change_max_regex_length(length):
@@ -693,9 +690,11 @@ def apply():
     result_ingest_list = []
     paragraphs_dict = {}
     
-    
-    
+    iteration_cnt = 0
     for actor in actors_list:
+        print("1", iteration_cnt/len(actors_list))
+        iteration_cnt += 1
+
         # get actor forms and remove duplicate forms
         actor_forms_list = actor['_source']['forms']
         actor_forms_list = list(set([actor_form.replace('ئ','ی').replace('ـ','').replace('‌',' ').replace("  ", " ") for actor_form in actor_forms_list ]))
@@ -782,7 +781,11 @@ def apply_supervisors():
     print(len(paragraphs_dict))
     
     # find supervisors in paragraphs
+    iteration_cnt = 0
     for actor in actors_list:
+        print("2", iteration_cnt/len(actors_list))
+        iteration_cnt += 1
+
         # get actor forms and remove duplicate forms
         actor_forms_list = actor['_source']['forms']
         actor_forms_list = list(set([actor_form.replace('ئ','ی').replace('ـ','').replace('‌',' ').replace("  ", " ") for actor_form in actor_forms_list ]))
