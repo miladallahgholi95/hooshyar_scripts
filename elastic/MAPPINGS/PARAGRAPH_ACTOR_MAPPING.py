@@ -126,7 +126,7 @@ MAPPING = {
               "type": "keyword"
             },
             "value": {
-              "type": "nested"
+              "type": "keyword"
             }
           }
         },
