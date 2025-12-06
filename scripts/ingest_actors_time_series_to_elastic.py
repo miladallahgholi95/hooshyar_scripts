@@ -136,7 +136,7 @@ def create_actor_time_series_data():
 
             update_year_dict(actor_year_dict,bucket_list)
             source_series_data = {
-                'source_id':"1",
+                'source_id': "1",
                 'role_name':role_name,
                 'series_data':convert_to_series_data(actor_year_dict)
             }
