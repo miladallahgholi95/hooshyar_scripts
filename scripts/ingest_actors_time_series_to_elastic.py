@@ -5,6 +5,7 @@ from elastic.MAPPINGS import PARAGRAPH_ACTOR_MAPPING, ACTORS_MAPPING, REGULATORS
 
 import pandas as pd
 
+datetime_field_name = "document_datetime"
 
 def apply():
     create_actor_time_series_data()
@@ -30,7 +31,7 @@ def get_doc_years_list():
     res_agg = {
         "year_agg":{
             "terms": {
-                "field": "document_datetime.year",
+                "field": f"{datetime_field_name}.year",
                 "size": BUCKET_SIZE
             }
         }
@@ -82,7 +83,7 @@ def get_year_bucket_list(actor_name,role_name):
     res_agg = {
         "year_agg":{
             "terms": {
-                "field": "document_datetime.year",
+                "field": f"{datetime_field_name}.year",
                 "size": BUCKET_SIZE
             }
         }
