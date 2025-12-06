@@ -22,6 +22,7 @@ MAPPING = {
             },
             "name": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -46,13 +47,13 @@ MAPPING = {
         },
         "document_category": {
           "type": "text",
+          "analyzer": "persian_custom_analyzer",
           "fields": {
             "keyword": {
               "type": "keyword",
               "ignore_above": 256
             }
           },
-          "analyzer": "persian_custom_analyzer"
         },
         "document_datetime": {
           "properties": {
@@ -132,6 +133,7 @@ MAPPING = {
         },
         "keyword_main_subject": {
           "type": "text",
+          "analyzer": "persian_custom_analyzer",
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -143,6 +145,7 @@ MAPPING = {
           "properties": {
             "name": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -159,6 +162,7 @@ MAPPING = {
           "properties": {
             "name": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -168,6 +172,7 @@ MAPPING = {
             },
             "value": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -191,6 +196,7 @@ MAPPING = {
             },
             "name": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -225,6 +231,7 @@ MAPPING = {
             },
             "source_actor_id": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
@@ -240,6 +247,7 @@ MAPPING = {
             },
             "supervisor_actor_id": {
               "type": "text",
+              "analyzer": "persian_custom_analyzer",
               "fields": {
                 "keyword": {
                   "type": "keyword",
