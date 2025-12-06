@@ -19,7 +19,7 @@ def get_all_actors_list():
     response = ES_CLIENT.search(
         index=ACTORS_MAPPING.NAME,
         query=res_query,
-        size = 10000
+        size = SEARCH_WINDOW_SIZE
     )
     actor_list = response['hits']['hits']
     return actor_list
@@ -42,7 +42,7 @@ def get_doc_years_list():
             "match_all": {}
         },
         aggregations=res_agg,
-        size = 1000
+        size = SEARCH_WINDOW_SIZE
     )
 
     year_buckets = response['aggregations']['year_agg']['buckets']
