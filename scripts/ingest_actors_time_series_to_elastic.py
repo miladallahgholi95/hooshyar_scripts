@@ -89,8 +89,6 @@ def get_year_bucket_list(actor_name,role_name):
         }
     }
 
-
-
     response = ES_CLIENT.search(
         index=PARAGRAPH_ACTOR_MAPPING.NAME,
         query=res_query,
@@ -125,7 +123,8 @@ def create_actor_time_series_data():
 
     # create source_series_data for each actor
     c = 0
-    for actor in actors_list[:]:
+    ingest_actors = []
+    for actor in actors_list:
         c+= 1
         print(f"source_series_data {c}/{len(actors_list)}")
 
@@ -143,6 +142,10 @@ def create_actor_time_series_data():
             }
             if source_series_data not in actor['_source']['source_series_data']:
                 actor['_source']['source_series_data'].append(source_series_data)
+
+
+        actor['_source']["_id"] = actor['_id']
+        ingest_actors.append(actor['_source'])
                 
 
     actor_index = IndexObjectWithId(ACTORS_MAPPING.NAME,
@@ -155,7 +158,7 @@ def create_actor_time_series_data():
     # create index
     actor_index.create()
     
-    actor_index.bulk_insert_documents(actors_list)
+    actor_index.bulk_insert_documents(ingest_actors)
     print('Actors updated.')
     
 
@@ -169,6 +172,7 @@ def create_actor_correlation_data():
     # calculate correlation between actors
     actors_dict = {actor['_id']: actor for actor in actors_list}
     c = 0
+    ingest_actors = []
     for actor in actors_list[:]:
         c+= 1
         print(f"correlation {c}/{len(actors_list)}")
@@ -180,6 +184,8 @@ def create_actor_correlation_data():
                 'role_name': role_name,
                 'correlation_data': correlation_result
             })
+        actor['_source']['_id'] = actor['_id']
+        ingest_actors.append(actor['_source'])
                 
 
     actor_index = IndexObjectWithId(ACTORS_MAPPING.NAME,
@@ -192,7 +198,7 @@ def create_actor_correlation_data():
     # create index
     actor_index.create()
     
-    actor_index.bulk_insert_documents(actors_list)
+    actor_index.bulk_insert_documents(ingest_actors)
     print('Actors updated.')
 
 
