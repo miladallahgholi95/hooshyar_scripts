@@ -8,7 +8,7 @@ import pandas as pd
 datetime_field_name = "document_datetime"
 
 def apply():
-    # create_actor_time_series_data()
+    create_actor_time_series_data()
     create_actor_correlation_data()
 
 
