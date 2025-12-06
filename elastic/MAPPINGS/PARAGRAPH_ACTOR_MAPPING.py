@@ -42,7 +42,7 @@ MAPPING = {
           "type": "text",
           "term_vector": "with_positions_offsets",
           "analyzer": "persian_custom_analyzer",
-          "fielddata": true
+          "fielddata": True
         },
         "document_category": {
           "type": "text",
