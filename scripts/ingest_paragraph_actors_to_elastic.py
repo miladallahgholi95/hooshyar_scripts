@@ -249,11 +249,6 @@ def simple_search(forms, role_keywords,
 
     res_query = {
         "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
-                }
-            }],
             "should":[
                 {
                     "match_phrase":{
@@ -293,11 +288,6 @@ def search_motevali(forms, role_keywords):
     
     res_query = {
         "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
-                }
-            }],
             "must_not": [
                 {
                     "match": {
@@ -343,11 +333,6 @@ def search_eghdam_motevali(forms, role_keywords):
         
     res_query = {
         "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
-                }
-            }],
             "should":[
                 {
                     "match": {
@@ -390,11 +375,6 @@ def search_hamkar(forms, role_keywords):
     
     res_query = {
         "bool": {
-            "filter": [{
-                "term": {
-                    "document_source_id": DOTIC_SOURCE_ID
-                }
-            }],
             "should":[
                 {
                     "match_phrase":{
