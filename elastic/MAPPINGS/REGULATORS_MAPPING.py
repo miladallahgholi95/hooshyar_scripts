@@ -1,4 +1,4 @@
-NAME = "hooshyar_regulators_index"
+NAME = "hokmrani_dade_regulators_index"
 MAPPING = {
       "properties": {
         "area": {
