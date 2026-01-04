@@ -11,8 +11,6 @@ def apply():
     create_actor_time_series_data()
     create_actor_correlation_data()
 
-
-
 def get_all_actors_list():
     res_query = {
         "match_all":{}
@@ -186,7 +184,6 @@ def create_actor_correlation_data():
             })
         actor['_source']['_id'] = actor['_id']
         ingest_actors.append(actor['_source'])
-                
 
     actor_index = IndexObjectWithId(ACTORS_MAPPING.NAME,
                              PARAGRAPH_SETTING.SETTING,
