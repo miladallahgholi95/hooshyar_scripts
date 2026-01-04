@@ -92,7 +92,9 @@ def get_year_bucket_list(actor_name,role_name):
         aggregations=res_agg,
         size = 0
     )
+    print(res_query)
 
+    print(res_agg)
     year_buckets = response['aggregations']['year_agg']['buckets']
 
     print("------------------------------>", year_buckets)
