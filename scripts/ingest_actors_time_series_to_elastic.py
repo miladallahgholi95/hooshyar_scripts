@@ -5,7 +5,7 @@ from elastic.MAPPINGS import PARAGRAPH_ACTOR_MAPPING, ACTORS_MAPPING
 
 import pandas as pd
 
-datetime_field_name = "document_datetime"
+datetime_field_name = "document_jalali_date"
 
 def apply():
     create_actor_time_series_data()
