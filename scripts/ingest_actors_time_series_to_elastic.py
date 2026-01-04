@@ -58,10 +58,9 @@ def get_year_bucket_list(actor_name,role_name):
       "query": {
           "bool":{
               "filter":[
-                  
                   {
                       "term":{
-                          "actors.name.keyword":actor_name
+                          "actors.name.keyword": actor_name
                       }
                   }
               ]
@@ -95,6 +94,8 @@ def get_year_bucket_list(actor_name,role_name):
     )
 
     year_buckets = response['aggregations']['year_agg']['buckets']
+
+    print("------------------------------>", year_buckets)
     return year_buckets
 
 def update_year_dict(year_dict,bucket_list):
