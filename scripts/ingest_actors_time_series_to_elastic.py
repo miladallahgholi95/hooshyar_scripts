@@ -99,7 +99,6 @@ def get_year_bucket_list(actor_name,role_name):
 
     year_buckets = response['aggregations']['year_agg']['buckets']
 
-    print("------------------------------>", year_buckets)
     return year_buckets
 
 def update_year_dict(year_dict,bucket_list):
@@ -110,7 +109,7 @@ def convert_to_series_data(year_dict):
     series_data = []
     for year,count in year_dict.items():
         series_data.append(
-            {"year":year,"count":count}
+            {"year":year, "count":count}
         )
     return series_data
 
